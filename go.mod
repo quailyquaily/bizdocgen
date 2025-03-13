@@ -1,4 +1,4 @@
-module github.com/quail-ink/bizdocgen
+module github.com/quailyquaily/bizdocgen
 
 go 1.22.1
 
@@ -25,6 +25,6 @@ require (
 	github.com/shopspring/decimal v1.3.1
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/image v0.15.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/text v0.14.0
 	gopkg.in/yaml.v2 v2.4.0
 )

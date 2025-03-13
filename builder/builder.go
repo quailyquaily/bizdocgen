@@ -7,8 +7,8 @@ import (
 	"github.com/johnfercher/maroto/v2/pkg/components/page"
 	marotoCore "github.com/johnfercher/maroto/v2/pkg/core"
 	"github.com/johnfercher/maroto/v2/pkg/props"
-	"github.com/quail-ink/bizdocgen/core"
-	"github.com/quail-ink/bizdocgen/i18n"
+	"github.com/quailyquaily/bizdocgen/core"
+	"github.com/quailyquaily/bizdocgen/i18n"
 )
 
 type (

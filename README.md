@@ -12,7 +12,7 @@ package main
 import (
   "os"
   "log"
-  "github.com/quail-ink/bizdocgen/builder"
+  "github.com/quailyquaily/bizdocgen/builder"
 )
 
 func main() {

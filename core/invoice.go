@@ -22,13 +22,14 @@ type (
 	}
 
 	InvoiceSummary struct {
-		PeriodStart     time.Time       `yaml:"period_start" time_format:"2006/01/02"`
-		PeriodEnd       time.Time       `yaml:"period_end" time_format:"2006/01/02"`
-		Title           string          `yaml:"title"`
-		TotalExcludeTax decimal.Decimal `yaml:"total_exclude_tax"`
-		TotalIncludeTax decimal.Decimal `yaml:"total_include_tax"`
-		Tax             decimal.Decimal `yaml:"tax"`
-		TaxRate         decimal.Decimal `yaml:"tax_rate"`
+		PeriodStart        time.Time       `yaml:"period_start" time_format:"2006/01/02"`
+		PeriodEnd          time.Time       `yaml:"period_end" time_format:"2006/01/02"`
+		Title              string          `yaml:"title"`
+		TotalExcludeTax    decimal.Decimal `yaml:"total_exclude_tax"`
+		TotalIncludeTax    decimal.Decimal `yaml:"total_include_tax"`
+		TotalIncludeTaxJPY decimal.Decimal `yaml:"total_include_tax_jpy"`
+		Tax                decimal.Decimal `yaml:"tax"`
+		TaxRate            decimal.Decimal `yaml:"tax_rate"`
 	}
 
 	InvoicePayment struct {

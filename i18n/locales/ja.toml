@@ -34,6 +34,9 @@ other = "消費税 (JCT)"
 [InvoiceSummaryTotalWithTax]
 other = "合計 (税込)"
 
+[InvoiceSummaryTotalWithTaxJPY]
+other = "参考金額：約{{.TotalJPY}}円。※1 {{.Symbol}}（ドル）={{.DollarRate}}円で換算"
+
 [InvoiceDetails]
 other = "明細"
 

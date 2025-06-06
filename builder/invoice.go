@@ -322,7 +322,6 @@ func (b *Builder) BuildInvoiceSummaryRows() []marotoCore.Row {
 	tAmount := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryAmount", nil)
 	tVAT := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryVAT", nil)
 	tTotal := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryTotalWithTax", nil)
-	tTotalJPY := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryTotalWithTaxJPY", nil)
 
 	borderBottomStyle := &props.Cell{
 		BorderType:  border.Bottom,
@@ -330,6 +329,7 @@ func (b *Builder) BuildInvoiceSummaryRows() []marotoCore.Row {
 	}
 
 	var total, tax, subtotal, totalJPY decimal.Decimal
+	var tTotalJPY string
 	if b.iParams.Summary.TotalExcludeTax.IsPositive() {
 		// tax excluded?
 		subtotal = b.iParams.Summary.TotalExcludeTax
@@ -347,6 +347,12 @@ func (b *Builder) BuildInvoiceSummaryRows() []marotoCore.Row {
 	}
 	if b.iParams.Summary.TotalIncludeTaxJPY.IsPositive() {
 		totalJPY = b.iParams.Summary.TotalIncludeTaxJPY
+		rate := totalJPY.Div(total)
+		tTotalJPY = b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryTotalWithTaxJPY", map[string]any{
+			"TotalJPY":   totalJPY.Round(0),
+			"DollarRate": rate.Round(0),
+			"Symbol":     b.iParams.Currency,
+		})
 	}
 
 	ret := []marotoCore.Row{
@@ -368,9 +374,8 @@ func (b *Builder) BuildInvoiceSummaryRows() []marotoCore.Row {
 		),
 	}
 	if totalJPY.IsPositive() {
-		ret = append(ret, row.New(10).Add(
-			text.NewCol(6, tTotalJPY, props.Text{Size: 10, Top: 4, Align: align.Left, Style: fontstyle.Bold, Color: b.fgColor}),
-			text.NewCol(6, fmt.Sprintf("%s %s", totalJPY.RoundDown(2), "日本円"), props.Text{Size: 10, Top: 4, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		ret = append(ret, row.New(8).Add(
+			text.NewCol(12, tTotalJPY, props.Text{Size: 8, Top: 2, Align: align.Left, Color: b.fgColor}),
 		))
 	}
 	return ret

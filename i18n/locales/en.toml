@@ -25,6 +25,9 @@ other = "VAT"
 [InvoiceSummaryTotalWithTax]
 other = "Total (including tax)"
 
+[InvoiceSummaryTotalWithTaxJPY]
+other = "Reference Amount: {{.TotalJPY}} JPY, ※1 {{.Symbol}} (USD) = {{.DollarRate}} JPY"
+
 [InvoiceDetails]
 other = "Details"
 

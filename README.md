@@ -1,50 +1,72 @@
 # bizdocgen
 
-A biz doc generator created by [Quail](https://quail.ink).
+A business document generator created by [Quail](https://quail.ink).
 
 ![](https://static.quail.ink/media/qz5uzv5q.webp)
 
 ## Usage
 
+### Generate an invoice
+
 ```go
 package main
 
 import (
-  "os"
-  "log"
-  "github.com/quailyquaily/bizdocgen/builder"
+	"log"
+	"os"
+
+	"github.com/quailyquaily/bizdocgen/builder"
 )
 
 func main() {
-	bd, err := builder.NewBuilder(Config{}, "./sample-params-1.yaml")
+	bd, err := builder.NewInvoiceBuilderFromFile(builder.Config{
+		Lang:          "en",
+		InvoiceLayout: builder.LayoutModern, // classic|modern|compact|spotlight|ledger|split
+	}, "./sample-params/invoice-1.yaml")
 	if err != nil {
-		log.Panic("failed to create builder")
+		log.Panic(err)
 	}
 
 	buf, err := bd.GenerateInvoice()
-	if buf == nil || err != nil {
-		log.Panic("failed to generate invoice")
+	if err != nil {
+		log.Panic(err)
 	}
-
-	filename := "sample-invoice.pdf"
-	if err := os.WriteFile(filename, buf, 0666); err != nil {
-		log.Panic("failed to write to file")
-	}
+	_ = os.WriteFile("invoice.pdf", buf, 0o666)
 }
 ```
 
-### Configuration
+### Fonts + language
 
-The builder can be configured with custom fonts, to display CJK characters properly. Here is an example of how to configure the builder with [NotoSansCJK-JP](https://github.com/minoryorg/Noto-Sans-CJK-JP/tree/master/fonts)
+To render CJK content, configure UTF-8 fonts (the repo includes Noto Sans CJK under `fonts/`):
 
 ```go
-bd, _ := builder.NewBuilder(
-	Config{
+bd, _ := builder.NewPaymentStatementBuilderFromFile(
+	builder.Config{
+		Lang:                   "ja", // also: zh_cn, zh_tw (or zh-CN / zh-TW)
+		PaymentStatementLayout: builder.LayoutModern,
+
 		FontName:       "noto-sans-cjk",
 		FontNormal:     "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Regular.ttf",
 		FontItalic:     "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Italic.ttf",
 		FontBold:       "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Bold.ttf",
 		FontBoldItalic: "./fonts/NotoSansCJK-JP/NotoSansCJKjp-BoldItalic.ttf",
 	},
-	"./sample-params-2.yaml")
+	"./sample-params/paymentstatement-1.yaml",
+)
 ```
+
+## Layouts
+
+Select layouts via `builder.Config.InvoiceLayout` / `builder.Config.PaymentStatementLayout`.
+Built-ins: `classic`, `modern`, `compact`, `spotlight`, `ledger`, `split`. See `docs/layouts.md`.
+
+## Quote currency reference (optional)
+
+To display an implied exchange rate in invoice summary, set:
+- `summary.total_include_tax_quote_amount`
+- `summary.total_include_tax_quota_symbol` (alias: `summary.total_include_tax_quote_symbol`)
+
+## Samples
+
+- Inputs: `sample-params/`
+- Generate local PDFs: `go run ./cmd/generate-samples` → `samples/` (PDFs are ignored by git via `.gitignore`)

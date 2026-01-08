@@ -1,0 +1,120 @@
+[InvoiceID]
+other = "發票編號"
+
+[InvoiceTaxID]
+other = "稅號"
+
+[InvoiceIssueDate]
+other = "開立日期"
+
+[InvoicePeriod]
+other = "期間"
+
+[InvoiceBillTo]
+other = "開票對象"
+
+[InvoiceSummary]
+other = "彙總"
+
+[InvoiceSummaryAmount]
+other = "金額"
+
+[InvoiceSummaryVAT]
+other = "增值稅"
+
+[InvoiceSummaryTotalWithTax]
+other = "合計（含稅）"
+
+[InvoiceSummaryTotalWithTaxJPY]
+other = "參考金額：{{.TotalJPY}} 日圓，※1 1 {{.Symbol}} (USD) = {{.DollarRate}} 日圓"
+
+[InvoiceSummaryTotalWithTaxQuote]
+other = "參考金額：{{.QuoteAmount}} {{.QuoteSymbol}}，※1 1 {{.BaseSymbol}} = {{.QuotePerBase}} {{.QuoteSymbol}}"
+
+[InvoiceDetails]
+other = "明細"
+
+[InvoicePayment]
+other = "付款資訊"
+
+[InvoicePaymentMethod]
+other = "方式"
+
+[InvoicePaymentID]
+other = "付款編號"
+
+[InvoicePaymentBankName]
+other = "銀行"
+
+[InvoicePaymentBankBranch]
+other = "分行"
+
+[InvoicePaymentBankDepositType]
+other = "帳戶類型"
+
+[InvoicePaymentBankAccount]
+other = "帳號"
+
+[InvoicePaymentBankAccountName]
+other = "戶名"
+
+[PaymentStatementTitle]
+other = "報酬、費用、合約款及獎金支付證明"
+
+[PaymentStatementIssueDate]
+other = "開立日期"
+
+[PaymentStatementPeriod]
+other = "期間"
+
+[PaymentStatementChannelTitle]
+other = "支付"
+
+[PaymentStatementChannel]
+other = "支付方式"
+
+[PaymentStatementChannelTxID]
+other = "支付交易 ID"
+
+[PaymentStatementSummary]
+other = "彙總"
+
+[PaymentStatementSummaryAmount]
+other = "金額"
+
+[PaymentStatementSummaryRevenue]
+other = "收入"
+
+[PaymentStatementSummaryNetAmount]
+other = "實付金額（稅前）"
+
+[PaymentStatementWithholdingTax]
+other = "預扣稅"
+
+[PaymentStatementDetails]
+other = "明細"
+
+[PaymentStatementDetailsAmount]
+other = "實付金額"
+
+[PaymentStatementDetailsTax]
+other = "預扣稅額"
+
+[PaymentStatementPayer]
+other = "付款方"
+
+[PaymentStatementPayee]
+other = "收款方"
+
+[PaymentStatementUserName]
+other = "名稱"
+
+[PaymentStatementUserAddress]
+other = "地址"
+
+[PaymentStatementUserTaxID]
+other = "稅號"
+
+[PaymentStatementUserContact]
+other = "聯絡方式"
+

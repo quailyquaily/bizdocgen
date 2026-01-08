@@ -37,6 +37,9 @@ other = "合計 (税込)"
 [InvoiceSummaryTotalWithTaxJPY]
 other = "参考金額：約{{.TotalJPY}}円。※1 {{.Symbol}}（ドル）={{.DollarRate}}円で換算"
 
+[InvoiceSummaryTotalWithTaxQuote]
+other = "参考金額：約{{.QuoteAmount}}{{.QuoteSymbol}}。※1 1{{.BaseSymbol}}={{.QuotePerBase}}{{.QuoteSymbol}}で換算"
+
 [InvoiceDetails]
 other = "明細"
 
@@ -115,4 +118,3 @@ other = "個人番号又は法人番号"
 
 [PaymentStatementUserContact]
 other = "連絡先"
-

@@ -21,6 +21,10 @@ import (
 )
 
 func (b *Builder) BuildInvoiceHeader() ([]marotoCore.Row, error) {
+	return b.buildInvoiceHeader(6)
+}
+
+func (b *Builder) buildInvoiceHeader(spacerHeight float64) ([]marotoCore.Row, error) {
 	tInvoiceID := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceID", nil)
 	tTaxID := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceTaxID", nil)
 	tIssueDate := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceIssueDate", nil)
@@ -73,9 +77,9 @@ func (b *Builder) BuildInvoiceHeader() ([]marotoCore.Row, error) {
 		),
 	)
 
-	rows := []marotoCore.Row{
-		rs,
-		row.New(6),
+	rows := []marotoCore.Row{rs}
+	if spacerHeight > 0 {
+		rows = append(rows, row.New(spacerHeight))
 	}
 	return rows, nil
 }
@@ -328,32 +332,7 @@ func (b *Builder) BuildInvoiceSummaryRows() []marotoCore.Row {
 		BorderColor: &props.Color{Red: 200, Green: 200, Blue: 200},
 	}
 
-	var total, tax, subtotal, totalJPY decimal.Decimal
-	var tTotalJPY string
-	if b.iParams.Summary.TotalExcludeTax.IsPositive() {
-		// tax excluded?
-		subtotal = b.iParams.Summary.TotalExcludeTax
-		if b.iParams.Summary.Tax.IsPositive() {
-			tax = b.iParams.Summary.Tax.Round(2)
-		} else if b.iParams.Summary.TaxRate.IsPositive() {
-			tax = subtotal.Mul(b.iParams.Summary.TaxRate).Round(2)
-		}
-		total = subtotal.Add(tax).Round(2)
-	} else {
-		// tax included?
-		total = b.iParams.Summary.TotalIncludeTax
-		subtotal = total.Div(decimal.NewFromFloat(1).Add(b.iParams.Summary.TaxRate)).Round(2)
-		tax = total.Sub(subtotal).Round(2)
-	}
-	if b.iParams.Summary.TotalIncludeTaxJPY.IsPositive() {
-		totalJPY = b.iParams.Summary.TotalIncludeTaxJPY
-		rate := totalJPY.Div(total)
-		tTotalJPY = b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryTotalWithTaxJPY", map[string]any{
-			"TotalJPY":   totalJPY.Round(0),
-			"DollarRate": rate.Round(0),
-			"Symbol":     b.iParams.Currency,
-		})
-	}
+	summary := b.invoiceSummaryNumbers()
 
 	ret := []marotoCore.Row{
 		row.New(16).WithStyle(borderBottomStyle).Add(
@@ -362,21 +341,89 @@ func (b *Builder) BuildInvoiceSummaryRows() []marotoCore.Row {
 		),
 		row.New(12).Add(
 			text.NewCol(8, b.iParams.Summary.Title, props.Text{Size: 9, Top: 4, Align: align.Left, Color: b.fgColor}),
-			text.NewCol(4, fmt.Sprintf("%s %s", subtotal.RoundDown(2), b.iParams.Currency), props.Text{Size: 9, Top: 4, Align: align.Right, Color: b.fgColor}),
+			text.NewCol(4, fmt.Sprintf("%s %s", summary.Subtotal.RoundDown(2), b.iParams.Currency), props.Text{Size: 9, Top: 4, Align: align.Right, Color: b.fgColor}),
 		),
 		row.New(8).WithStyle(borderBottomStyle).Add(
 			text.NewCol(6, tVAT, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
-			text.NewCol(6, fmt.Sprintf("%s %s", tax, b.iParams.Currency), props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+			text.NewCol(6, fmt.Sprintf("%s %s", summary.Tax, b.iParams.Currency), props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 		),
 		row.New(10).Add(
 			text.NewCol(6, tTotal, props.Text{Size: 10, Top: 4, Align: align.Left, Style: fontstyle.Bold, Color: b.fgColor}),
-			text.NewCol(6, fmt.Sprintf("%s %s", total, b.iParams.Currency), props.Text{Size: 10, Top: 4, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+			text.NewCol(6, fmt.Sprintf("%s %s", summary.Total, b.iParams.Currency), props.Text{Size: 10, Top: 4, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
 		),
 	}
-	if totalJPY.IsPositive() {
+	if summary.QuoteAmount.IsPositive() && summary.QuoteText != "" {
 		ret = append(ret, row.New(8).Add(
-			text.NewCol(12, tTotalJPY, props.Text{Size: 8, Top: 2, Align: align.Left, Color: b.fgColor}),
+			text.NewCol(12, summary.QuoteText, props.Text{Size: 8, Top: 2, Align: align.Left, Color: b.fgColor}),
 		))
 	}
 	return ret
+}
+
+type invoiceSummaryNumbers struct {
+	Subtotal    decimal.Decimal
+	Tax         decimal.Decimal
+	Total       decimal.Decimal
+	QuoteAmount decimal.Decimal
+	QuoteSymbol string
+	QuoteText   string
+}
+
+func (b *Builder) invoiceSummaryNumbers() invoiceSummaryNumbers {
+	var total, tax, subtotal, totalJPY decimal.Decimal
+	var quoteAmount decimal.Decimal
+	var quoteSymbol string
+	var quoteText string
+
+	if b.iParams.Summary.TotalExcludeTax.IsPositive() {
+		subtotal = b.iParams.Summary.TotalExcludeTax
+		if b.iParams.Summary.Tax.IsPositive() {
+			tax = b.iParams.Summary.Tax.Round(2)
+		} else if b.iParams.Summary.TaxRate.IsPositive() {
+			tax = subtotal.Mul(b.iParams.Summary.TaxRate).Round(2)
+		}
+		total = subtotal.Add(tax).Round(2)
+	} else {
+		total = b.iParams.Summary.TotalIncludeTax
+		subtotal = total.Div(decimal.NewFromFloat(1).Add(b.iParams.Summary.TaxRate)).Round(2)
+		tax = total.Sub(subtotal).Round(2)
+	}
+
+	quoteSymbol = strings.TrimSpace(b.iParams.Summary.TotalIncludeTaxQuoteSymbol)
+	if quoteSymbol == "" {
+		quoteSymbol = strings.TrimSpace(b.iParams.Summary.TotalIncludeTaxQuotaSymbol)
+	}
+
+	if b.iParams.Summary.TotalIncludeTaxQuoteAmount.IsPositive() && quoteSymbol != "" {
+		quoteAmount = b.iParams.Summary.TotalIncludeTaxQuoteAmount
+	} else if b.iParams.Summary.TotalIncludeTaxJPY.IsPositive() {
+		totalJPY = b.iParams.Summary.TotalIncludeTaxJPY
+		quoteAmount = totalJPY
+		quoteSymbol = "JPY"
+	}
+
+	if quoteAmount.IsPositive() && quoteSymbol != "" && total.IsPositive() {
+		quoteAmountRounded := quoteAmount.Round(2)
+		quotePerBaseRounded := quoteAmount.Div(total).Round(4)
+		if quoteSymbol == "JPY" || quoteSymbol == "円" {
+			quoteAmountRounded = quoteAmount.Round(0)
+			quotePerBaseRounded = quoteAmount.Div(total).Round(0)
+		}
+
+		quoteText = b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryTotalWithTaxQuote", map[string]any{
+			"QuoteAmount":  quoteAmountRounded.String(),
+			"QuoteSymbol":  quoteSymbol,
+			"BaseSymbol":   b.iParams.Currency,
+			"QuotePerBase": quotePerBaseRounded.String(),
+		})
+	}
+
+	return invoiceSummaryNumbers{
+		Subtotal:    subtotal,
+		Tax:         tax,
+		Total:       total,
+		QuoteAmount: quoteAmount,
+		QuoteSymbol: quoteSymbol,
+		QuoteText:   quoteText,
+	}
 }

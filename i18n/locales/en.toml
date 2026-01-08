@@ -28,6 +28,9 @@ other = "Total (including tax)"
 [InvoiceSummaryTotalWithTaxJPY]
 other = "Reference Amount: {{.TotalJPY}} JPY, ※1 {{.Symbol}} (USD) = {{.DollarRate}} JPY"
 
+[InvoiceSummaryTotalWithTaxQuote]
+other = "Reference Amount: {{.QuoteAmount}} {{.QuoteSymbol}}, ※1 1 {{.BaseSymbol}} = {{.QuotePerBase}} {{.QuoteSymbol}}"
+
 [InvoiceDetails]
 other = "Details"
 
@@ -116,4 +119,3 @@ other = "Tax ID"
 
 [PaymentStatementUserContact]
 other = "Contact"
-

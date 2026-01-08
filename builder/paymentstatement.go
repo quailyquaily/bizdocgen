@@ -165,14 +165,7 @@ func (b *Builder) BuildPsSummaryRows() []marotoCore.Row {
 		BorderColor: &props.Color{Red: 200, Green: 200, Blue: 200},
 	}
 
-	total := decimal.NewFromFloat(0.0)
-	totalTax := decimal.NewFromFloat(0.0)
-	for _, item := range b.psParams.DetailItems {
-		tax := item.Amount.Mul(item.WithholdingTaxRate)
-		total = total.Add(item.Amount)
-		totalTax = totalTax.Add(tax)
-	}
-	totalWithoutTax := total.Sub(totalTax)
+	summary := b.paymentStatementSummaryNumbers()
 
 	return []marotoCore.Row{
 		row.New(16).WithStyle(borderBottomStyle).Add(
@@ -181,16 +174,37 @@ func (b *Builder) BuildPsSummaryRows() []marotoCore.Row {
 		),
 		row.New(14).Add(
 			text.NewCol(8, tRevenue, props.Text{Size: 10, Top: 4, Align: align.Left}),
-			text.NewCol(4, fmt.Sprintf("%s %s", total.Round(b.Round), b.psParams.Currency), props.Text{Size: 10, Top: 4, Align: align.Right}),
+			text.NewCol(4, fmt.Sprintf("%s %s", summary.Revenue.Round(b.Round), b.psParams.Currency), props.Text{Size: 10, Top: 4, Align: align.Right}),
 		),
 		row.New(10).WithStyle(borderBottomStyle).Add(
 			text.NewCol(6, tWithholdingTax, props.Text{Size: 10, Top: 0, Align: align.Left}),
-			text.NewCol(6, fmt.Sprintf("-%s %s", totalTax.Round(b.Round), b.psParams.Currency), props.Text{Size: 10, Top: 0, Align: align.Right}),
+			text.NewCol(6, fmt.Sprintf("-%s %s", summary.WithholdingTax.Round(b.Round), b.psParams.Currency), props.Text{Size: 10, Top: 0, Align: align.Right}),
 		),
 		row.New(16).Add(
 			text.NewCol(6, tNetAmount, props.Text{Size: 12, Top: 4, Align: align.Left, Style: fontstyle.Bold}),
-			text.NewCol(6, fmt.Sprintf("%s %s", totalWithoutTax.Round(b.Round), b.psParams.Currency), props.Text{Size: 12, Top: 4, Align: align.Right, Style: fontstyle.Bold}),
+			text.NewCol(6, fmt.Sprintf("%s %s", summary.NetAmount.Round(b.Round), b.psParams.Currency), props.Text{Size: 12, Top: 4, Align: align.Right, Style: fontstyle.Bold}),
 		),
+	}
+}
+
+type paymentStatementSummaryNumbers struct {
+	Revenue        decimal.Decimal
+	WithholdingTax decimal.Decimal
+	NetAmount      decimal.Decimal
+}
+
+func (b *Builder) paymentStatementSummaryNumbers() paymentStatementSummaryNumbers {
+	revenue := decimal.NewFromFloat(0.0)
+	withholdingTax := decimal.NewFromFloat(0.0)
+	for _, item := range b.psParams.DetailItems {
+		tax := item.Amount.Mul(item.WithholdingTaxRate)
+		revenue = revenue.Add(item.Amount)
+		withholdingTax = withholdingTax.Add(tax)
+	}
+	return paymentStatementSummaryNumbers{
+		Revenue:        revenue,
+		WithholdingTax: withholdingTax,
+		NetAmount:      revenue.Sub(withholdingTax),
 	}
 }
 

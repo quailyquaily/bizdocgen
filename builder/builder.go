@@ -20,6 +20,10 @@ type (
 		FontBoldItalic string
 
 		Lang string
+
+		// Layout names: "classic" (default), "modern", "compact".
+		InvoiceLayout          string
+		PaymentStatementLayout string
 	}
 
 	Builder struct {
@@ -70,10 +74,12 @@ func NewPaymentStatementBuilder(cfg Config, params *core.PaymentStatementParams)
 		round = 0
 	}
 	return &Builder{
-		cfg:        cfg,
-		i18nBundle: i18nBundle,
-		psParams:   params,
-		Round:      int32(round),
+		cfg:              cfg,
+		i18nBundle:       i18nBundle,
+		psParams:         params,
+		Round:            int32(round),
+		fgColor:          &props.Color{Red: 50, Green: 50, Blue: 93},
+		fgSecondaryColor: &props.Color{Red: 80, Green: 80, Blue: 123},
 	}, nil
 }
 
@@ -86,9 +92,10 @@ func NewPaymentStatementBuilderFromFile(cfg Config, filename string) (*Builder, 
 }
 
 func (b *Builder) GenerateInvoice() ([]byte, error) {
-	headers, err := b.BuildInvoiceHeader()
+	layout := InvoiceLayoutByName(b.cfg.InvoiceLayout)
+	headers, body, err := layout.Build(b)
 	if err != nil {
-		log.Printf("failed to build invoice header: %v\n", err)
+		log.Printf("failed to build invoice layout %q: %v\n", layout.Name(), err)
 		return nil, err
 	}
 
@@ -99,22 +106,7 @@ func (b *Builder) GenerateInvoice() ([]byte, error) {
 	}
 
 	newPage := page.New()
-
-	receiveRows := b.BuildInvoiceBillTo()
-	newPage.Add(receiveRows...)
-
-	summary := b.BuildInvoiceSummaryRows()
-
-	newPage.Add(summary...)
-
-	details := b.BuildInvoiceDetailsRows()
-
-	newPage.Add(details...)
-
-	if !b.iParams.Payment.Disabled {
-		payment := b.BuildInvoicePaymentRows()
-		newPage.Add(payment...)
-	}
+	newPage.Add(body...)
 
 	m.AddPages(newPage)
 
@@ -122,9 +114,10 @@ func (b *Builder) GenerateInvoice() ([]byte, error) {
 }
 
 func (b *Builder) GeneratePaymentStatement() ([]byte, error) {
-	headers, err := b.BuildPsHeader()
+	layout := PaymentStatementLayoutByName(b.cfg.PaymentStatementLayout)
+	headers, body, err := layout.Build(b)
 	if err != nil {
-		log.Printf("failed to build header: %v\n", err)
+		log.Printf("failed to build payment statement layout %q: %v\n", layout.Name(), err)
 		return nil, err
 	}
 
@@ -135,21 +128,7 @@ func (b *Builder) GeneratePaymentStatement() ([]byte, error) {
 	}
 
 	newPage := page.New()
-
-	payer := b.BuildPsPayer()
-	newPage.Add(payer...)
-
-	payee := b.BuildPsPayee()
-	newPage.Add(payee...)
-
-	channel := b.BuildPsChannelRows()
-	newPage.Add(channel...)
-
-	summary := b.BuildPsSummaryRows()
-	newPage.Add(summary...)
-
-	details := b.BuildPsDetailsRows()
-	newPage.Add(details...)
+	newPage.Add(body...)
 
 	m.AddPages(newPage)
 

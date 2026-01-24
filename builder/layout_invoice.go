@@ -88,9 +88,14 @@ func (invoiceLayoutModern) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 		summaryCol.Add(text.New(summaryNumbers.QuoteText, props.Text{Size: 8, Top: 54, Align: align.Right, Color: b.fgSecondaryColor}))
 	}
 
+	rowHeight := float64(58)
+	if summaryNumbers.QuoteAmount.IsPositive() && summaryNumbers.QuoteText != "" {
+		rowHeight = 62
+	}
+
 	body := make([]marotoCore.Row, 0, 64)
 	body = append(body,
-		row.New(58).WithStyle(borderBottomStyle).Add(billToCol, summaryCol),
+		row.New(rowHeight).WithStyle(borderBottomStyle).Add(billToCol, summaryCol),
 		row.New(6),
 	)
 	body = append(body, b.BuildInvoiceDetailsRows()...)

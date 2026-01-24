@@ -41,7 +41,7 @@ type (
 	}
 
 	InvoicePayment struct {
-		Disabled              bool   `yaml:"show"`
+		Disabled              bool   `yaml:"disabled"`
 		PaymentID             string `yaml:"payment_id"`
 		Method                string `yaml:"method"`
 		ReceiveAccountBank    string `yaml:"receive_account_bank"`

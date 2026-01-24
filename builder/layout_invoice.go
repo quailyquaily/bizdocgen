@@ -280,6 +280,10 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 	tBankDepositType := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankDepositType", nil)
 	tBankAccount := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankAccount", nil)
 	tBankAccountName := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankAccountName", nil)
+	tCryptoCurrency := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentCryptoCurrency", nil)
+	tCryptoNetwork := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentCryptoNetwork", nil)
+	tCryptoAddress := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentCryptoAddress", nil)
+	tCryptoMemo := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentCryptoMemo", nil)
 	tSummary := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummary", nil)
 	tAmount := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryAmount", nil)
 	tVAT := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryVAT", nil)
@@ -330,10 +334,14 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 
 	method := b.iParams.Payment.Method
 	if method == "" {
-		method = "Bank"
+		method = b.defaultInvoicePaymentMethod()
 	}
 	addLine(tMethod, method)
 	addLine(tPaymentID, b.iParams.Payment.PaymentID)
+	addLine(tCryptoCurrency, b.iParams.Payment.ReceiveCryptoCurrency)
+	addLine(tCryptoNetwork, b.iParams.Payment.ReceiveCryptoNetwork)
+	addLine(tCryptoAddress, b.iParams.Payment.ReceiveCryptoAddress)
+	addLine(tCryptoMemo, b.iParams.Payment.ReceiveCryptoMemo)
 	addLine(tBankName, b.iParams.Payment.ReceiveAccountBank)
 	addLine(tBankBranch, b.iParams.Payment.ReceiveAccountBranch)
 	addLine(tBankDepositType, b.iParams.Payment.ReceiveDepositType)

@@ -106,6 +106,10 @@ func (b *Builder) BuildInvoicePaymentRows() []marotoCore.Row {
 	tBankDepositType := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankDepositType", nil)
 	tBankAccount := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankAccount", nil)
 	tBankAccountName := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankAccountName", nil)
+	tCryptoCurrency := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentCryptoCurrency", nil)
+	tCryptoNetwork := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentCryptoNetwork", nil)
+	tCryptoAddress := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentCryptoAddress", nil)
+	tCryptoMemo := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentCryptoMemo", nil)
 
 	borderBottomStyle := &props.Cell{
 		BorderType:  border.Bottom,
@@ -120,7 +124,7 @@ func (b *Builder) BuildInvoicePaymentRows() []marotoCore.Row {
 	}
 
 	if b.iParams.Payment.Method == "" {
-		b.iParams.Payment.Method = "Bank"
+		b.iParams.Payment.Method = b.defaultInvoicePaymentMethod()
 	}
 	rows = append(rows, row.New(10).Add(
 		col.New(2).Add(
@@ -138,6 +142,50 @@ func (b *Builder) BuildInvoicePaymentRows() []marotoCore.Row {
 			),
 			col.New(10).Add(
 				text.New(b.iParams.Payment.PaymentID, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+			),
+		))
+	}
+
+	if b.iParams.Payment.ReceiveCryptoCurrency != "" {
+		rows = append(rows, row.New(6).Add(
+			col.New(2).Add(
+				text.New(tCryptoCurrency, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
+			),
+			col.New(10).Add(
+				text.New(b.iParams.Payment.ReceiveCryptoCurrency, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+			),
+		))
+	}
+
+	if b.iParams.Payment.ReceiveCryptoNetwork != "" {
+		rows = append(rows, row.New(6).Add(
+			col.New(2).Add(
+				text.New(tCryptoNetwork, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
+			),
+			col.New(10).Add(
+				text.New(b.iParams.Payment.ReceiveCryptoNetwork, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+			),
+		))
+	}
+
+	if b.iParams.Payment.ReceiveCryptoAddress != "" {
+		rows = append(rows, row.New(6).Add(
+			col.New(2).Add(
+				text.New(tCryptoAddress, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
+			),
+			col.New(10).Add(
+				text.New(b.iParams.Payment.ReceiveCryptoAddress, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+			),
+		))
+	}
+
+	if b.iParams.Payment.ReceiveCryptoMemo != "" {
+		rows = append(rows, row.New(6).Add(
+			col.New(2).Add(
+				text.New(tCryptoMemo, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
+			),
+			col.New(10).Add(
+				text.New(b.iParams.Payment.ReceiveCryptoMemo, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
@@ -219,6 +267,27 @@ func (b *Builder) BuildInvoicePaymentRows() []marotoCore.Row {
 		))
 	}
 	return rows
+}
+
+func (b *Builder) defaultInvoicePaymentMethod() string {
+	if b.iParams == nil {
+		return ""
+	}
+	if b.hasInvoiceCryptoPayment() {
+		return "Cryptocurrency"
+	}
+	return "Bank"
+}
+
+func (b *Builder) hasInvoiceCryptoPayment() bool {
+	if b.iParams == nil {
+		return false
+	}
+	payment := b.iParams.Payment
+	return payment.ReceiveCryptoCurrency != "" ||
+		payment.ReceiveCryptoNetwork != "" ||
+		payment.ReceiveCryptoAddress != "" ||
+		payment.ReceiveCryptoMemo != ""
 }
 
 func (b *Builder) BuildInvoiceDetailsRows() []marotoCore.Row {

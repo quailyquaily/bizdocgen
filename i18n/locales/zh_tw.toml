@@ -58,6 +58,18 @@ other = "帳號"
 [InvoicePaymentBankAccountName]
 other = "戶名"
 
+[InvoicePaymentCryptoCurrency]
+other = "加密幣種"
+
+[InvoicePaymentCryptoNetwork]
+other = "網路"
+
+[InvoicePaymentCryptoAddress]
+other = "錢包地址"
+
+[InvoicePaymentCryptoMemo]
+other = "備註/標籤"
+
 [PaymentStatementTitle]
 other = "報酬、費用、合約款及獎金支付證明"
 
@@ -117,4 +129,3 @@ other = "稅號"
 
 [PaymentStatementUserContact]
 other = "聯絡方式"
-

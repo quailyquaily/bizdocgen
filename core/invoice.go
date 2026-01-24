@@ -41,9 +41,10 @@ type (
 	}
 
 	InvoicePayment struct {
-		Disabled              bool   `yaml:"disabled"`
-		PaymentID             string `yaml:"payment_id"`
-		Method                string `yaml:"method"`
+		Disabled  bool   `yaml:"disabled"`
+		PaymentID string `yaml:"payment_id"`
+		Method    string `yaml:"method"`
+
 		ReceiveAccountBank    string `yaml:"receive_account_bank"`
 		ReceiveAccountBranch  string `yaml:"receive_account_branch"`
 		ReceiveDepositType    string `yaml:"receive_deposit_type"`
@@ -51,6 +52,11 @@ type (
 		ReceiveAccountName    string `yaml:"receive_account_name"`
 		ReceiveAccountRouting string `yaml:"receive_account_routing"`
 		ReceiveAccountSwift   string `yaml:"receive_account_swift"`
+
+		ReceiveCryptoCurrency string `yaml:"receive_crypto_currency"`
+		ReceiveCryptoNetwork  string `yaml:"receive_crypto_network"`
+		ReceiveCryptoAddress  string `yaml:"receive_crypto_address"`
+		ReceiveCryptoMemo     string `yaml:"receive_crypto_memo"`
 	}
 
 	InvoiceParams struct {

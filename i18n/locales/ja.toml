@@ -67,6 +67,18 @@ other = "口座番号"
 [InvoicePaymentBankAccountName]
 other = "口座名義"
 
+[InvoicePaymentCryptoCurrency]
+other = "暗号資産"
+
+[InvoicePaymentCryptoNetwork]
+other = "ネットワーク"
+
+[InvoicePaymentCryptoAddress]
+other = "ウォレットアドレス"
+
+[InvoicePaymentCryptoMemo]
+other = "メモ/タグ"
+
 
 [PaymentStatementTitle]
 other = "報酬、料金、契約金及び賞金の支払調書"

@@ -58,6 +58,18 @@ other = "账号"
 [InvoicePaymentBankAccountName]
 other = "户名"
 
+[InvoicePaymentCryptoCurrency]
+other = "加密币种"
+
+[InvoicePaymentCryptoNetwork]
+other = "网络"
+
+[InvoicePaymentCryptoAddress]
+other = "钱包地址"
+
+[InvoicePaymentCryptoMemo]
+other = "备注/标签"
+
 [PaymentStatementTitle]
 other = "报酬、费用、合同款及奖金支付证明"
 
@@ -117,4 +129,3 @@ other = "税号"
 
 [PaymentStatementUserContact]
 other = "联系方式"
-

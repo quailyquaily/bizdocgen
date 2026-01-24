@@ -58,6 +58,18 @@ other = "Bank Account"
 [InvoicePaymentBankAccountName]
 other = "Bank Account Name"
 
+[InvoicePaymentCryptoCurrency]
+other = "Crypto Currency"
+
+[InvoicePaymentCryptoNetwork]
+other = "Network"
+
+[InvoicePaymentCryptoAddress]
+other = "Wallet Address"
+
+[InvoicePaymentCryptoMemo]
+other = "Memo/Tag"
+
 
 
 [PaymentStatementTitle]

@@ -127,7 +127,7 @@ func (b *Builder) BuildInvoiceFooter() ([]marotoCore.Row, error) {
 	const footerRowHeight = 10.0
 	footerRow := row.New(footerRowHeight).Add(
 		text.NewCol(6, fmt.Sprintf("%s", b.iParams.ID), props.Text{
-			Size:  9,
+			Size:  7,
 			Top:   footerRowHeight, // Align with right-bottom page number baseline.
 			Align: align.Left,
 			Color: b.fgTertiaryColor,

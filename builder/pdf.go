@@ -48,10 +48,14 @@ func (b *Builder) CreateMetricsDecorator(head []marotoCore.Row) (marotoCore.Maro
 
 	bu := config.NewBuilder()
 	if b.iParams != nil {
-		bu = bu.WithPageNumber("{current} / {total}", props.RightBottom)
-		bu = bu.WithDefaultFont(&props.Font{Size: 9, Color: b.fgTertiaryColor})
+		pageNumber := props.PageNumber{
+			Pattern: "{current} / {total}",
+			Place:   props.RightBottom,
+		}
+		bu = bu.WithPageNumber(pageNumber)
+		bu = bu.WithDefaultFont(&props.Font{Size: 7, Color: b.fgTertiaryColor})
 	}
-	// bu = bu.WithPageNumber("Page {current} of {total}", props.Bottom)
+
 	if useCustomFonts {
 		bu = bu.WithCustomFonts(customFonts)
 		bu = bu.WithDefaultFont(&props.Font{Family: b.cfg.FontName})

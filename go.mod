@@ -2,7 +2,7 @@ module github.com/quailyquaily/bizdocgen
 
 go 1.22.1
 
-require github.com/johnfercher/maroto/v2 v2.0.0-beta.17
+require github.com/johnfercher/maroto/v2 v2.2.2
 
 require (
 	github.com/boombuler/barcode v1.0.1 // indirect
@@ -24,7 +24,7 @@ require (
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/shopspring/decimal v1.3.1
 	github.com/sirupsen/logrus v1.9.3
-	golang.org/x/image v0.15.0 // indirect
-	golang.org/x/text v0.14.0
+	golang.org/x/image v0.18.0 // indirect
+	golang.org/x/text v0.16.0
 	gopkg.in/yaml.v2 v2.4.0
 )

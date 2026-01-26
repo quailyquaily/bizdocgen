@@ -6,7 +6,7 @@
 - `core/`: shared document models and calculation helpers.
 - `docs/`: contributor-facing notes (see `docs/layouts.md` for built-in layouts).
 - `i18n/`: localization loader; translations live in `i18n/locales/*.toml` (supported: `en`, `ja`, `zh_cn`, `zh_tw`).
-- `sample-params/`: YAML inputs used by examples/tests.
+- `samples/`: YAML inputs used by examples/tests.
 - `samples/`: generated sample PDFs (ignored by `.gitignore`).
 - `fonts/`: bundled fonts for CJK demos (referenced by config).
 - `sample-*.pdf`: legacy generated artifacts in repo root (also ignored).
@@ -27,7 +27,7 @@
 
 ## Testing Guidelines
 - Tests live next to code as `*_test.go` (currently `builder/builder_test.go`).
-- Avoid committing generated PDFs (`*.pdf` is ignored). If you need fixtures, prefer small text/YAML under `sample-params/`.
+- Avoid committing generated PDFs (`*.pdf` is ignored). If you need fixtures, prefer small text/YAML under `samples/`.
 
 ## Commit & Pull Request Guidelines
 - Match the commit style in history: `feat: ...`, `fix: ...`, `refactor: ...`, `chore: ...` (optionally add a scope).

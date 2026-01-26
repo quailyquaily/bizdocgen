@@ -59,7 +59,7 @@ type (
 		ReceiveCryptoMemo     string `yaml:"receive_crypto_memo"`
 	}
 
-	InvoceDoc struct {
+	InvoiceDoc struct {
 		Title       string `yaml:"title"`
 		Description string `yaml:"description"`
 	}
@@ -87,7 +87,7 @@ type (
 		Payment InvoicePayment `yaml:"payment"`
 
 		// Doc related info
-		Doc InvoceDoc `yaml:"doc"`
+		Doc InvoiceDoc `yaml:"doc"`
 	}
 )
 

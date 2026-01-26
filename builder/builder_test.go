@@ -8,7 +8,7 @@ import (
 // TestHelloName calls greetings.Hello with a name, checking
 // for a valid return value.
 func TestGenerateInvoice(t *testing.T) {
-	builder, err := NewInvoiceBuilderFromFile(Config{}, "../sample-params/invoice-1.yaml")
+	builder, err := NewInvoiceBuilderFromFile(Config{}, "../samples/invoice-1.yaml")
 	if err != nil {
 		t.Fatal("failed to create builder")
 		return
@@ -37,7 +37,7 @@ func TestGenerateInvoiceWithConfig(t *testing.T) {
 			FontBoldItalic: "../fonts/NotoSansCJK-JP/NotoSansCJKjp-BoldItalic.ttf",
 			Lang:           "ja",
 		},
-		"../sample-params/invoice-2.yaml")
+		"../samples/invoice-2.yaml")
 	if err != nil {
 		t.Fatal("failed to create builder")
 		return
@@ -64,7 +64,7 @@ func TestGeneratePaymentstatement(t *testing.T) {
 		FontBold:       "../fonts/NotoSansCJK-JP/NotoSansCJKjp-Bold.ttf",
 		FontBoldItalic: "../fonts/NotoSansCJK-JP/NotoSansCJKjp-BoldItalic.ttf",
 		Lang:           "ja",
-	}, "../sample-params/paymentstatement-1.yaml")
+	}, "../samples/paymentstatement-1.yaml")
 	if err != nil {
 		t.Fatal("failed to create builder")
 		return

@@ -42,5 +42,5 @@
 bd, err := builder.NewInvoiceBuilderFromFile(builder.Config{
 	Lang:         "en",
 	InvoiceLayout: builder.LayoutModern,
-}, "./sample-params/invoice-1.yaml")
+}, "./samples/invoice-1.yaml")
 ```

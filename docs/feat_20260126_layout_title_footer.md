@@ -9,8 +9,8 @@
   - 大标题：`Invoice`
   - 小字说明：`This is an invoice hint`
 - **文案来源**：
-  - 大标题：`InvoiceParams.DocTitle`（默认值为 `Invoice`）。
-  - 小字说明：`InvoiceParams.DocHint`（默认值为 `This is an invoice hint`）。
+  - 大标题：`InvoiceParams.Doc.Title`（默认值为 `Invoice`）。
+  - 小字说明：`InvoiceParams.Doc.Description`（默认值为 `This is an invoice hint`）。
 - **版式要求**：所有模板首页头部以相同格式呈现上述两行文字。
 
 ## 需求 2：页脚信息

@@ -22,7 +22,7 @@ func main() {
 	bd, err := builder.NewInvoiceBuilderFromFile(builder.Config{
 		Lang:          "en",
 		InvoiceLayout: builder.LayoutModern, // classic|modern|compact|spotlight|ledger|split
-	}, "./sample-params/invoice-1.yaml")
+	}, "./samples/invoice-1.yaml")
 	if err != nil {
 		log.Panic(err)
 	}
@@ -40,10 +40,10 @@ func main() {
 To render CJK content, configure UTF-8 fonts (the repo includes Noto Sans CJK under `fonts/`):
 
 ```go
-bd, _ := builder.NewPaymentStatementBuilderFromFile(
-	builder.Config{
-		Lang:                   "ja", // also: zh_cn, zh_tw (or zh-CN / zh-TW)
-		PaymentStatementLayout: builder.LayoutModern,
+	bd, _ := builder.NewPaymentStatementBuilderFromFile(
+		builder.Config{
+			Lang:                   "ja", // also: zh_cn, zh_tw (or zh-CN / zh-TW)
+			PaymentStatementLayout: builder.LayoutModern,
 
 		FontName:       "noto-sans-cjk",
 		FontNormal:     "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Regular.ttf",
@@ -51,7 +51,7 @@ bd, _ := builder.NewPaymentStatementBuilderFromFile(
 		FontBold:       "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Bold.ttf",
 		FontBoldItalic: "./fonts/NotoSansCJK-JP/NotoSansCJKjp-BoldItalic.ttf",
 	},
-	"./sample-params/paymentstatement-1.yaml",
+	"./samples/paymentstatement-1.yaml",
 )
 ```
 
@@ -68,5 +68,5 @@ To display an implied exchange rate in invoice summary, set:
 
 ## Samples
 
-- Inputs: `sample-params/`
+- Inputs (YAML): `samples/`
 - Generate local PDFs: `go run ./cmd/generate-samples` → `samples/` (PDFs are ignored by git via `.gitignore`)

@@ -22,7 +22,7 @@ import (
 
 const (
 	defaultInvoiceDocTitle       = "Invoice"
-	defaultInvoiceDocDescription = ""
+	defaultInvoiceDocDescription = "This is an invoice hint"
 )
 
 func (b *Builder) BuildInvoiceHeader() ([]marotoCore.Row, error) {

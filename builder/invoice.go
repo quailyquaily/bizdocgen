@@ -22,7 +22,7 @@ import (
 
 const (
 	defaultInvoiceDocTitle = "Invoice"
-	defaultInvoiceDocHint  = "This is an invoice hint"
+	defaultInvoiceDocHint  = ""
 )
 
 func (b *Builder) BuildInvoiceHeader() ([]marotoCore.Row, error) {
@@ -47,10 +47,14 @@ func (b *Builder) buildInvoiceTitleRows() []marotoCore.Row {
 	title := b.invoiceDocTitle()
 	hint := b.invoiceDocHint()
 
-	return []marotoCore.Row{
-		row.New(9).Add(text.NewCol(12, title, props.Text{Size: 18, Top: 0, Align: align.Left, Style: fontstyle.Bold, Color: b.fgColor})),
-		row.New(4).Add(text.NewCol(12, hint, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgTertiaryColor})),
+	ret := []marotoCore.Row{
+		row.New(10).Add(text.NewCol(12, title, props.Text{Size: 20, Top: 0, Align: align.Left, Style: fontstyle.Bold, Color: b.fgColor})),
 	}
+
+	if hint != "" {
+		ret = append(ret, row.New(4).Add(text.NewCol(12, hint, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgTertiaryColor})))
+	}
+	return ret
 }
 
 func (b *Builder) buildInvoiceHeader(spacerHeight float64) ([]marotoCore.Row, error) {

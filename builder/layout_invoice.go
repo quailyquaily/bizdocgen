@@ -59,11 +59,6 @@ func (invoiceLayoutModern) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 	tVAT := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryVAT", nil)
 	tTotal := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryTotalWithTax", nil)
 
-	borderBottomStyle := &props.Cell{
-		BorderType:  border.Bottom,
-		BorderColor: &props.Color{Red: 220, Green: 220, Blue: 220},
-	}
-
 	billToCol := col.New(6)
 	billToCol.Add(
 		text.New(tBillTo, props.Text{Size: 10, Top: 0, Style: fontstyle.Bold, Color: b.fgColor}),
@@ -95,7 +90,7 @@ func (invoiceLayoutModern) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 
 	body := make([]marotoCore.Row, 0, 64)
 	body = append(body,
-		row.New(rowHeight).WithStyle(borderBottomStyle).Add(billToCol, summaryCol),
+		row.New(rowHeight).Add(billToCol, summaryCol),
 		row.New(6),
 	)
 	body = append(body, b.BuildInvoiceDetailsRows()...)
@@ -125,11 +120,6 @@ func (invoiceLayoutCompact) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Ro
 	tSummary := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummary", nil)
 	tVAT := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryVAT", nil)
 
-	borderBottomStyle := &props.Cell{
-		BorderType:  border.Bottom,
-		BorderColor: &props.Color{Red: 220, Green: 220, Blue: 220},
-	}
-
 	billToCol := col.New(7)
 	billToCol.Add(
 		text.New(tBillTo, props.Text{Size: 9, Top: 0, Style: fontstyle.Bold, Color: b.fgColor}),
@@ -153,7 +143,7 @@ func (invoiceLayoutCompact) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Ro
 
 	body := make([]marotoCore.Row, 0, 64)
 	body = append(body,
-		row.New(38).WithStyle(borderBottomStyle).Add(billToCol, summaryCol),
+		row.New(38).Add(billToCol, summaryCol),
 		row.New(4),
 	)
 	body = append(body, b.BuildInvoiceDetailsRows()...)
@@ -212,8 +202,9 @@ func (invoiceLayoutSpotlight) Build(b *Builder) ([]marotoCore.Row, []marotoCore.
 	tTotal := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryTotalWithTax", nil)
 
 	borderBottomStyle := &props.Cell{
-		BorderType:  border.Bottom,
-		BorderColor: &props.Color{Red: 220, Green: 220, Blue: 220},
+		BorderType:      border.Bottom,
+		BorderColor:     b.borderColor,
+		BorderThickness: 0.1,
 	}
 
 	summaryNumbers := b.invoiceSummaryNumbers()
@@ -224,20 +215,20 @@ func (invoiceLayoutSpotlight) Build(b *Builder) ([]marotoCore.Row, []marotoCore.
 		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 22, Top: 10, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
 	)
 	if b.iParams.Summary.Title != "" {
-		spotlightCol.Add(text.New(b.iParams.Summary.Title, props.Text{Size: 9, Top: 26, Align: align.Center, Color: b.fgSecondaryColor}))
+		spotlightCol.Add(text.New(b.iParams.Summary.Title, props.Text{Size: 9, Top: 23, Align: align.Center, Color: b.fgSecondaryColor}))
 	}
 
 	breakdownRow := row.New(16).WithStyle(borderBottomStyle).Add(
 		col.New(4).Add(
-			text.New(tAmount, props.Text{Size: 8, Top: 2, Align: align.Center, Color: b.fgSecondaryColor}),
+			text.New(tAmount, props.Text{Size: 8, Top: 4, Align: align.Center, Color: b.fgSecondaryColor}),
 			text.New(fmt.Sprintf("%s %s", summaryNumbers.Subtotal.RoundDown(2), b.iParams.Currency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
 		),
 		col.New(4).Add(
-			text.New(tVAT, props.Text{Size: 8, Top: 2, Align: align.Center, Color: b.fgSecondaryColor}),
+			text.New(tVAT, props.Text{Size: 8, Top: 4, Align: align.Center, Color: b.fgSecondaryColor}),
 			text.New(fmt.Sprintf("%s %s", summaryNumbers.Tax, b.iParams.Currency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
 		),
 		col.New(4).Add(
-			text.New(tTotal, props.Text{Size: 8, Top: 2, Align: align.Center, Color: b.fgSecondaryColor}),
+			text.New(tTotal, props.Text{Size: 8, Top: 4, Align: align.Center, Color: b.fgSecondaryColor}),
 			text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
 		),
 	)
@@ -296,18 +287,22 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 
 	borderBottomStyle := &props.Cell{
 		BorderType:  border.Bottom,
-		BorderColor: &props.Color{Red: 220, Green: 220, Blue: 220},
+		BorderColor: b.borderColor,
+	}
+	borderTopStyle := &props.Cell{
+		BorderType:  border.Top,
+		BorderColor: b.borderColor,
 	}
 
 	summaryNumbers := b.invoiceSummaryNumbers()
 
 	summaryCol := col.New(6)
 	summaryCol.Add(
-		text.New(tSummary, props.Text{Size: 10, Top: 0, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
-		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 16, Top: 10, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tAmount, summaryNumbers.Subtotal.RoundDown(2), b.iParams.Currency), props.Text{Size: 9, Top: 30, Align: align.Right, Color: b.fgSecondaryColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tVAT, summaryNumbers.Tax, b.iParams.Currency), props.Text{Size: 9, Top: 36, Align: align.Right, Color: b.fgSecondaryColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tTotal, summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 9, Top: 42, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(tSummary, props.Text{Size: 10, Top: 10, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 16, Top: 20, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tAmount, summaryNumbers.Subtotal.RoundDown(2), b.iParams.Currency), props.Text{Size: 9, Top: 40, Align: align.Right, Color: b.fgSecondaryColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tVAT, summaryNumbers.Tax, b.iParams.Currency), props.Text{Size: 9, Top: 46, Align: align.Right, Color: b.fgSecondaryColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tTotal, summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 9, Top: 52, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
 	)
 	if summaryNumbers.QuoteAmount.IsPositive() && summaryNumbers.QuoteText != "" {
 		summaryCol.Add(text.New(summaryNumbers.QuoteText, props.Text{Size: 8, Top: 50, Align: align.Right, Color: b.fgSecondaryColor}))
@@ -325,9 +320,9 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 	}
 
 	paymentCol := col.New(6)
-	paymentCol.Add(text.New(tPayment, props.Text{Size: 10, Top: 0, Align: align.Left, Style: fontstyle.Bold, Color: b.fgColor}))
+	paymentCol.Add(text.New(tPayment, props.Text{Size: 10, Top: 10, Align: align.Left, Style: fontstyle.Bold, Color: b.fgColor}))
 
-	lineTop := 12.0
+	lineTop := 22.0
 	lineStep := 6.0
 	addLine := func(label, value string) {
 		if value == "" {
@@ -355,7 +350,7 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 	addLine("SWIFT", b.iParams.Payment.ReceiveAccountSwift)
 	addLine("Routing Number", b.iParams.Payment.ReceiveAccountRouting)
 
-	body = append(body, row.New(56).WithStyle(borderBottomStyle).Add(paymentCol, summaryCol))
+	body = append(body, row.New(56).WithStyle(borderTopStyle).Add(paymentCol, summaryCol))
 
 	return headers, body, nil
 }

@@ -34,6 +34,8 @@ type (
 		Round            int32
 		fgColor          *props.Color
 		fgSecondaryColor *props.Color
+		fgTertiaryColor  *props.Color
+		borderColor      *props.Color
 	}
 )
 
@@ -53,6 +55,8 @@ func NewInvoiceBuilder(cfg Config, params *core.InvoiceParams) (*Builder, error)
 		Round:            int32(round),
 		fgColor:          &props.Color{Red: 50, Green: 50, Blue: 93},
 		fgSecondaryColor: &props.Color{Red: 80, Green: 80, Blue: 123},
+		fgTertiaryColor:  &props.Color{Red: 120, Green: 120, Blue: 153},
+		borderColor:      &props.Color{Red: 210, Green: 210, Blue: 230},
 	}, nil
 }
 
@@ -80,6 +84,7 @@ func NewPaymentStatementBuilder(cfg Config, params *core.PaymentStatementParams)
 		Round:            int32(round),
 		fgColor:          &props.Color{Red: 50, Green: 50, Blue: 93},
 		fgSecondaryColor: &props.Color{Red: 80, Green: 80, Blue: 123},
+		borderColor:      &props.Color{Red: 210, Green: 210, Blue: 230},
 	}, nil
 }
 
@@ -102,6 +107,16 @@ func (b *Builder) GenerateInvoice() ([]byte, error) {
 	m, err := b.CreateMetricsDecorator(headers)
 	if err != nil {
 		log.Printf("failed to register header: %v\n", err)
+		return nil, err
+	}
+
+	footer, err := b.BuildInvoiceFooter()
+	if err != nil {
+		log.Printf("failed to build invoice footer: %v\n", err)
+		return nil, err
+	}
+	if err := m.RegisterFooter(footer...); err != nil {
+		log.Printf("failed to register footer: %v\n", err)
 		return nil, err
 	}
 

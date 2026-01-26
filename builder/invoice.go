@@ -20,8 +20,37 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+const (
+	defaultInvoiceDocTitle = "Invoice"
+	defaultInvoiceDocHint  = "This is an invoice hint"
+)
+
 func (b *Builder) BuildInvoiceHeader() ([]marotoCore.Row, error) {
 	return b.buildInvoiceHeader(6)
+}
+
+func (b *Builder) invoiceDocTitle() string {
+	if b.iParams.DocTitle != "" {
+		return b.iParams.DocTitle
+	}
+	return defaultInvoiceDocTitle
+}
+
+func (b *Builder) invoiceDocHint() string {
+	if b.iParams.DocHint != "" {
+		return b.iParams.DocHint
+	}
+	return defaultInvoiceDocHint
+}
+
+func (b *Builder) buildInvoiceTitleRows() []marotoCore.Row {
+	title := b.invoiceDocTitle()
+	hint := b.invoiceDocHint()
+
+	return []marotoCore.Row{
+		row.New(9).Add(text.NewCol(12, title, props.Text{Size: 18, Top: 0, Align: align.Left, Style: fontstyle.Bold, Color: b.fgColor})),
+		row.New(4).Add(text.NewCol(12, hint, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgTertiaryColor})),
+	}
 }
 
 func (b *Builder) buildInvoiceHeader(spacerHeight float64) ([]marotoCore.Row, error) {
@@ -32,7 +61,7 @@ func (b *Builder) buildInvoiceHeader(spacerHeight float64) ([]marotoCore.Row, er
 
 	borderBottomStyle := &props.Cell{
 		BorderType:  border.Bottom,
-		BorderColor: &props.Color{Red: 200, Green: 200, Blue: 200},
+		BorderColor: b.borderColor,
 	}
 	leftCol := col.New(6)
 
@@ -77,11 +106,32 @@ func (b *Builder) buildInvoiceHeader(spacerHeight float64) ([]marotoCore.Row, er
 		),
 	)
 
-	rows := []marotoCore.Row{rs}
+	rows := make([]marotoCore.Row, 0, 4)
+	rows = append(rows, b.buildInvoiceTitleRows()...)
+	rows = append(rows, rs)
 	if spacerHeight > 0 {
 		rows = append(rows, row.New(spacerHeight))
 	}
 	return rows, nil
+}
+
+func (b *Builder) BuildInvoiceFooter() ([]marotoCore.Row, error) {
+	if b.iParams == nil {
+		return nil, fmt.Errorf("invoice params are nil")
+	}
+
+	const footerRowHeight = 10.0
+	footerRow := row.New(footerRowHeight).Add(
+		text.NewCol(6, fmt.Sprintf("%s", b.iParams.ID), props.Text{
+			Size:  9,
+			Top:   footerRowHeight, // Align with right-bottom page number baseline.
+			Align: align.Left,
+			Color: b.fgTertiaryColor,
+		}),
+		col.New(6),
+	)
+
+	return []marotoCore.Row{footerRow}, nil
 }
 
 func (b *Builder) BuildInvoiceBillTo() []marotoCore.Row {
@@ -113,7 +163,7 @@ func (b *Builder) BuildInvoicePaymentRows() []marotoCore.Row {
 
 	borderBottomStyle := &props.Cell{
 		BorderType:  border.Bottom,
-		BorderColor: &props.Color{Red: 200, Green: 200, Blue: 200},
+		BorderColor: b.borderColor,
 	}
 
 	rows := []marotoCore.Row{
@@ -301,7 +351,7 @@ func (b *Builder) BuildInvoiceDetailsRows() []marotoCore.Row {
 
 	borderBottomStyle := &props.Cell{
 		BorderType:  border.Bottom,
-		BorderColor: &props.Color{Red: 200, Green: 200, Blue: 200},
+		BorderColor: b.borderColor,
 	}
 
 	rows := []marotoCore.Row{
@@ -398,7 +448,7 @@ func (b *Builder) BuildInvoiceSummaryRows() []marotoCore.Row {
 
 	borderBottomStyle := &props.Cell{
 		BorderType:  border.Bottom,
-		BorderColor: &props.Color{Red: 200, Green: 200, Blue: 200},
+		BorderColor: b.borderColor,
 	}
 
 	summary := b.invoiceSummaryNumbers()

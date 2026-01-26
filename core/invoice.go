@@ -64,6 +64,8 @@ type (
 		TaxNumber    string    `yaml:"tax_number"`
 		Date         time.Time `yaml:"date" time_format:"2006/01/02"`
 		Currency     string    `yaml:"currency"`
+		DocTitle     string    `yaml:"doc_title"`
+		DocHint      string    `yaml:"doc_hint"`
 		CompanyName  string    `yaml:"company_name"`
 		CompanyAddr  string    `yaml:"company_address"`
 		CompanyEmail string    `yaml:"company_email"`

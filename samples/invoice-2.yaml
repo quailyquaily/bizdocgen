@@ -33,3 +33,6 @@ payment:
   receive_account_bank: "三井住友銀行"
   receive_account_branch: "本店営業部(001)"
   receive_account_number: "12345678"
+doc:
+  title: "御請求書（見本）"
+  description: "本請求書は、春日町株式会社の依頼に基づき、株式会社ミカンが代理で作成・交付しています"

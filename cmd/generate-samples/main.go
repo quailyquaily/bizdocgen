@@ -29,7 +29,7 @@ func main() {
 }
 
 func generateInvoices(repoRoot string) error {
-	input := filepath.Join(repoRoot, "sample-params", "invoice-1.yaml")
+	input := filepath.Join(repoRoot, "samples", "invoice-1.yaml")
 	params := &core.InvoiceParams{}
 	if err := params.Load(input); err != nil {
 		return err
@@ -65,7 +65,7 @@ func generateInvoices(repoRoot string) error {
 }
 
 func generateInvoice2Modern(repoRoot string) error {
-	input := filepath.Join(repoRoot, "sample-params", "invoice-2.yaml")
+	input := filepath.Join(repoRoot, "samples", "invoice-2.yaml")
 	params := &core.InvoiceParams{}
 	if err := params.Load(input); err != nil {
 		return err
@@ -102,7 +102,7 @@ func generateInvoice2Modern(repoRoot string) error {
 }
 
 func generatePaymentStatements(repoRoot string) error {
-	input := filepath.Join(repoRoot, "sample-params", "paymentstatement-1.yaml")
+	input := filepath.Join(repoRoot, "samples", "paymentstatement-1.yaml")
 	params := &core.PaymentStatementParams{}
 	if err := params.Load(input); err != nil {
 		return err

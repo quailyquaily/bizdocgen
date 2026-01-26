@@ -21,8 +21,8 @@ import (
 )
 
 const (
-	defaultInvoiceDocTitle = "Invoice"
-	defaultInvoiceDocHint  = ""
+	defaultInvoiceDocTitle       = "Invoice"
+	defaultInvoiceDocDescription = ""
 )
 
 func (b *Builder) BuildInvoiceHeader() ([]marotoCore.Row, error) {
@@ -30,17 +30,17 @@ func (b *Builder) BuildInvoiceHeader() ([]marotoCore.Row, error) {
 }
 
 func (b *Builder) invoiceDocTitle() string {
-	if b.iParams.DocTitle != "" {
-		return b.iParams.DocTitle
+	if b.iParams.Doc.Title != "" {
+		return b.iParams.Doc.Title
 	}
 	return defaultInvoiceDocTitle
 }
 
 func (b *Builder) invoiceDocHint() string {
-	if b.iParams.DocHint != "" {
-		return b.iParams.DocHint
+	if b.iParams.Doc.Description != "" {
+		return b.iParams.Doc.Description
 	}
-	return defaultInvoiceDocHint
+	return defaultInvoiceDocDescription
 }
 
 func (b *Builder) buildInvoiceTitleRows() []marotoCore.Row {

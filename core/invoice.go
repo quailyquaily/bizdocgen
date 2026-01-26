@@ -59,13 +59,16 @@ type (
 		ReceiveCryptoMemo     string `yaml:"receive_crypto_memo"`
 	}
 
+	InvoceDoc struct {
+		Title       string `yaml:"title"`
+		Description string `yaml:"description"`
+	}
+
 	InvoiceParams struct {
 		ID           string    `yaml:"id"`
 		TaxNumber    string    `yaml:"tax_number"`
 		Date         time.Time `yaml:"date" time_format:"2006/01/02"`
 		Currency     string    `yaml:"currency"`
-		DocTitle     string    `yaml:"doc_title"`
-		DocHint      string    `yaml:"doc_hint"`
 		CompanyName  string    `yaml:"company_name"`
 		CompanyAddr  string    `yaml:"company_address"`
 		CompanyEmail string    `yaml:"company_email"`
@@ -82,6 +85,9 @@ type (
 
 		// Payment Instructions
 		Payment InvoicePayment `yaml:"payment"`
+
+		// Doc related info
+		Doc InvoceDoc `yaml:"doc"`
 	}
 )
 

@@ -29,3 +29,6 @@ payment:
   receive_account_number: "123456789900"
   receive_account_routing: "1111222200"
   receive_account_swift: "BOFAUS3N"
+doc:
+  title: "Invoice Sample"
+  description: "Issued by Platform Inc. on behalf of ABC Inc. "

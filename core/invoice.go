@@ -62,6 +62,7 @@ type (
 		Disabled      bool            `yaml:"disabled"`
 		PaymentMethod string          `yaml:"payment_method"`
 		Amount        decimal.Decimal `yaml:"amount_paid"`
+		Currency      string          `yaml:"currency"`
 		PaidDate      time.Time       `yaml:"paid_date" time_format:"2006-01-02"`
 		TxID          string          `yaml:"tx_id"`
 	}

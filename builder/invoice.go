@@ -357,7 +357,11 @@ func (b *Builder) BuildInvoicePaymentResultRows() []marotoCore.Row {
 
 	addLine(tMethod, result.PaymentMethod)
 	if !result.Amount.IsZero() {
-		addLine(tAmount, fmt.Sprintf("%s %s", result.Amount.RoundDown(2), b.iParams.Currency))
+		currency := result.Currency
+		if currency == "" {
+			currency = b.iParams.Currency
+		}
+		addLine(tAmount, fmt.Sprintf("%s %s", result.Amount.RoundDown(2), currency))
 	}
 	if !result.PaidDate.IsZero() {
 		addLine(tPaidDate, result.PaidDate.Format("2006-01-02"))

@@ -154,7 +154,6 @@ func (b *Builder) BuildInvoiceBillTo() []marotoCore.Row {
 func (b *Builder) BuildInvoicePaymentRows() []marotoCore.Row {
 	tPayment := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePayment", nil)
 	tMethod := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentMethod", nil)
-	tPaymentID := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentID", nil)
 	tBankName := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankName", nil)
 	tBankBranch := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankBranch", nil)
 	tBankDepositType := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankDepositType", nil)
@@ -177,150 +176,209 @@ func (b *Builder) BuildInvoicePaymentRows() []marotoCore.Row {
 		),
 	}
 
-	if b.iParams.Payment.Method == "" {
-		b.iParams.Payment.Method = b.defaultInvoicePaymentMethod()
+	instruction := b.iParams.Payment.InvoicePaymentInstruction
+	method := instruction.Method
+	if method == "" {
+		method = b.defaultInvoicePaymentMethod()
 	}
 	rows = append(rows, row.New(10).Add(
 		col.New(2).Add(
 			text.New(tMethod, props.Text{Size: 9, Top: 4, Align: align.Left, Color: b.fgColor}),
 		),
 		col.New(10).Add(
-			text.New(b.iParams.Payment.Method, props.Text{Size: 9, Top: 4, Align: align.Right, Color: b.fgColor}),
+			text.New(method, props.Text{Size: 9, Top: 4, Align: align.Right, Color: b.fgColor}),
 		),
 	))
 
-	if b.iParams.Payment.PaymentID != "" {
-		rows = append(rows, row.New(6).Add(
-			col.New(2).Add(
-				text.New(tPaymentID, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
-			),
-			col.New(10).Add(
-				text.New(b.iParams.Payment.PaymentID, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
-			),
-		))
-	}
-
-	if b.iParams.Payment.ReceiveCryptoCurrency != "" {
+	if instruction.ReceiveCryptoCurrency != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tCryptoCurrency, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveCryptoCurrency, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveCryptoCurrency, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveCryptoNetwork != "" {
+	if instruction.ReceiveCryptoNetwork != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tCryptoNetwork, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveCryptoNetwork, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveCryptoNetwork, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveCryptoAddress != "" {
+	if instruction.ReceiveCryptoAddress != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tCryptoAddress, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveCryptoAddress, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveCryptoAddress, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveCryptoMemo != "" {
+	if instruction.ReceiveCryptoMemo != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tCryptoMemo, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveCryptoMemo, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveCryptoMemo, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveAccountBank != "" {
+	if instruction.ReceiveAccountBank != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tBankName, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveAccountBank, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveAccountBank, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveAccountBranch != "" {
+	if instruction.ReceiveAccountBranch != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tBankBranch, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveAccountBranch, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveAccountBranch, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveAccountNumber != "" {
+	if instruction.ReceiveAccountNumber != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tBankAccount, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveAccountNumber, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveAccountNumber, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveDepositType != "" {
+	if instruction.ReceiveDepositType != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tBankDepositType, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveDepositType, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveDepositType, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveAccountName != "" {
+	if instruction.ReceiveAccountName != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New(tBankAccountName, props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveAccountName, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveAccountName, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveAccountSwift != "" {
+	if instruction.ReceiveAccountSwift != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New("SWIFT", props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveAccountSwift, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveAccountSwift, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 
-	if b.iParams.Payment.ReceiveAccountRouting != "" {
+	if instruction.ReceiveAccountRouting != "" {
 		rows = append(rows, row.New(6).Add(
 			col.New(2).Add(
 				text.New("Routing Number", props.Text{Size: 9, Top: 0, Align: align.Left, Color: b.fgColor}),
 			),
 			col.New(10).Add(
-				text.New(b.iParams.Payment.ReceiveAccountRouting, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
+				text.New(instruction.ReceiveAccountRouting, props.Text{Size: 9, Top: 0, Align: align.Right, Color: b.fgColor}),
 			),
 		))
 	}
 	return rows
+}
+
+func (b *Builder) BuildInvoicePaymentResultRows() []marotoCore.Row {
+	tPaymentResult := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentResult", nil)
+	tMethod := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentResultMethod", nil)
+	tAmount := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentResultAmount", nil)
+	tPaidDate := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentResultPaidDate", nil)
+	tTxID := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentResultTxID", nil)
+
+	borderBottomStyle := &props.Cell{
+		BorderType:  border.Bottom,
+		BorderColor: b.borderColor,
+	}
+
+	rows := []marotoCore.Row{
+		row.New(16).WithStyle(borderBottomStyle).Add(
+			text.NewCol(8, tPaymentResult, props.Text{Size: 10, Top: 8, Align: align.Left, Style: fontstyle.Bold, Color: b.fgColor}),
+			text.NewCol(4, "", props.Text{Size: 10, Top: 8, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		),
+	}
+
+	result := b.iParams.Payment.InvoicePaymentResult
+	firstLine := true
+	addLine := func(label, value string) {
+		if value == "" {
+			return
+		}
+		height := 6.0
+		top := 0.0
+		if firstLine {
+			height = 10
+			top = 4
+			firstLine = false
+		}
+		rows = append(rows, row.New(height).Add(
+			col.New(2).Add(
+				text.New(label, props.Text{Size: 9, Top: top, Align: align.Left, Color: b.fgColor}),
+			),
+			col.New(10).Add(
+				text.New(value, props.Text{Size: 9, Top: top, Align: align.Right, Color: b.fgColor}),
+			),
+		))
+	}
+
+	addLine(tMethod, result.PaymentMethod)
+	if !result.Amount.IsZero() {
+		addLine(tAmount, fmt.Sprintf("%s %s", result.Amount.RoundDown(2), b.iParams.Currency))
+	}
+	if !result.PaidDate.IsZero() {
+		addLine(tPaidDate, result.PaidDate.Format("2006-01-02"))
+	}
+	addLine(tTxID, result.TxID)
+
+	return rows
+}
+
+func (b *Builder) showInvoicePaymentInstructions() bool {
+	if b.iParams == nil {
+		return false
+	}
+	return !b.iParams.Payment.InvoicePaymentInstruction.Disabled
+}
+
+func (b *Builder) showInvoicePaymentResult() bool {
+	if b.iParams == nil {
+		return false
+	}
+	return !b.iParams.Payment.InvoicePaymentResult.Disabled
 }
 
 func (b *Builder) defaultInvoicePaymentMethod() string {
@@ -337,11 +395,11 @@ func (b *Builder) hasInvoiceCryptoPayment() bool {
 	if b.iParams == nil {
 		return false
 	}
-	payment := b.iParams.Payment
-	return payment.ReceiveCryptoCurrency != "" ||
-		payment.ReceiveCryptoNetwork != "" ||
-		payment.ReceiveCryptoAddress != "" ||
-		payment.ReceiveCryptoMemo != ""
+	instruction := b.iParams.Payment.InvoicePaymentInstruction
+	return instruction.ReceiveCryptoCurrency != "" ||
+		instruction.ReceiveCryptoNetwork != "" ||
+		instruction.ReceiveCryptoAddress != "" ||
+		instruction.ReceiveCryptoMemo != ""
 }
 
 func (b *Builder) BuildInvoiceDetailsRows() []marotoCore.Row {

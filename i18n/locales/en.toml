@@ -26,10 +26,10 @@ other = "VAT"
 other = "Total (including tax)"
 
 [InvoiceSummaryTotalWithTaxJPY]
-other = "Reference Amount: {{.TotalJPY}} JPY, ※1 {{.Symbol}} (USD) = {{.DollarRate}} JPY"
+other = "※ Reference Amount: {{.TotalJPY}} JPY, {{.Symbol}} (USD) = {{.DollarRate}} JPY"
 
 [InvoiceSummaryTotalWithTaxQuote]
-other = "Reference Amount: {{.QuoteAmount}} {{.QuoteSymbol}}, ※1 1 {{.BaseSymbol}} = {{.QuotePerBase}} {{.QuoteSymbol}}"
+other = "※ Reference Amount: {{.QuoteAmount}} {{.QuoteSymbol}}, {{.BaseSymbol}} = {{.QuotePerBase}} {{.QuoteSymbol}}"
 
 [InvoiceDetails]
 other = "Details"
@@ -39,9 +39,6 @@ other = "Payment Instructions"
 
 [InvoicePaymentMethod]
 other = "Method"
-
-[InvoicePaymentID]
-other = "Payment ID"
 
 [InvoicePaymentBankName]
 other = "Bank Name"
@@ -69,6 +66,21 @@ other = "Wallet Address"
 
 [InvoicePaymentCryptoMemo]
 other = "Memo/Tag"
+
+[InvoicePaymentResult]
+other = "Payment Result"
+
+[InvoicePaymentResultMethod]
+other = "Method"
+
+[InvoicePaymentResultAmount]
+other = "Amount Paid"
+
+[InvoicePaymentResultPaidDate]
+other = "Paid Date"
+
+[InvoicePaymentResultTxID]
+other = "Tx ID"
 
 
 

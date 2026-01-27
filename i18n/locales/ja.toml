@@ -35,10 +35,10 @@ other = "消費税 (JCT)"
 other = "合計 (税込)"
 
 [InvoiceSummaryTotalWithTaxJPY]
-other = "参考金額：約{{.TotalJPY}}円。※1 {{.Symbol}}（ドル）={{.DollarRate}}円で換算"
+other = "※ 参考金額：約{{.TotalJPY}}円。{{.Symbol}}（ドル）={{.DollarRate}}円で換算"
 
 [InvoiceSummaryTotalWithTaxQuote]
-other = "参考金額：約{{.QuoteAmount}}{{.QuoteSymbol}}。※1 1{{.BaseSymbol}}={{.QuotePerBase}}{{.QuoteSymbol}}で換算"
+other = "※ 参考金額：約{{.QuoteAmount}}{{.QuoteSymbol}}。{{.BaseSymbol}}={{.QuotePerBase}}{{.QuoteSymbol}}で換算"
 
 [InvoiceDetails]
 other = "明細"
@@ -48,9 +48,6 @@ other = "支払方法"
 
 [InvoicePaymentMethod]
 other = "方法"
-
-[InvoicePaymentID]
-other = "支払ID"
 
 [InvoicePaymentBankName]
 other = "銀行名"
@@ -78,6 +75,21 @@ other = "ウォレットアドレス"
 
 [InvoicePaymentCryptoMemo]
 other = "メモ/タグ"
+
+[InvoicePaymentResult]
+other = "支払結果"
+
+[InvoicePaymentResultMethod]
+other = "支払方法"
+
+[InvoicePaymentResultAmount]
+other = "支払額"
+
+[InvoicePaymentResultPaidDate]
+other = "支払日"
+
+[InvoicePaymentResultTxID]
+other = "取引ID"
 
 
 [PaymentStatementTitle]

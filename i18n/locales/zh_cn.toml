@@ -26,10 +26,10 @@ other = "增值税"
 other = "合计（含税）"
 
 [InvoiceSummaryTotalWithTaxJPY]
-other = "参考金额：{{.TotalJPY}} 日元，※1 1 {{.Symbol}} (USD) = {{.DollarRate}} 日元"
+other = "※ 参考金额：{{.TotalJPY}} 日元，{{.Symbol}} (USD) = {{.DollarRate}} 日元"
 
 [InvoiceSummaryTotalWithTaxQuote]
-other = "参考金额：{{.QuoteAmount}} {{.QuoteSymbol}}，※1 1 {{.BaseSymbol}} = {{.QuotePerBase}} {{.QuoteSymbol}}"
+other = "※ 参考金额：{{.QuoteAmount}} {{.QuoteSymbol}}，{{.BaseSymbol}} = {{.QuotePerBase}} {{.QuoteSymbol}}"
 
 [InvoiceDetails]
 other = "明细"
@@ -39,9 +39,6 @@ other = "付款信息"
 
 [InvoicePaymentMethod]
 other = "方式"
-
-[InvoicePaymentID]
-other = "付款编号"
 
 [InvoicePaymentBankName]
 other = "银行"
@@ -69,6 +66,21 @@ other = "钱包地址"
 
 [InvoicePaymentCryptoMemo]
 other = "备注/标签"
+
+[InvoicePaymentResult]
+other = "支付结果"
+
+[InvoicePaymentResultMethod]
+other = "支付方式"
+
+[InvoicePaymentResultAmount]
+other = "已支付金额"
+
+[InvoicePaymentResultPaidDate]
+other = "支付日期"
+
+[InvoicePaymentResultTxID]
+other = "交易ID"
 
 [PaymentStatementTitle]
 other = "报酬、费用、合同款及奖金支付证明"

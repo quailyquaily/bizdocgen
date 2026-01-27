@@ -40,10 +40,9 @@ type (
 		TaxRate            decimal.Decimal `yaml:"tax_rate"`
 	}
 
-	InvoicePayment struct {
-		Disabled  bool   `yaml:"disabled"`
-		PaymentID string `yaml:"payment_id"`
-		Method    string `yaml:"method"`
+	InvoicePaymentInstruction struct {
+		Disabled bool   `yaml:"disabled"`
+		Method   string `yaml:"method"`
 
 		ReceiveAccountBank    string `yaml:"receive_account_bank"`
 		ReceiveAccountBranch  string `yaml:"receive_account_branch"`
@@ -57,6 +56,19 @@ type (
 		ReceiveCryptoNetwork  string `yaml:"receive_crypto_network"`
 		ReceiveCryptoAddress  string `yaml:"receive_crypto_address"`
 		ReceiveCryptoMemo     string `yaml:"receive_crypto_memo"`
+	}
+
+	InvoicePaymentResult struct {
+		Disabled      bool            `yaml:"disabled"`
+		PaymentMethod string          `yaml:"payment_method"`
+		Amount        decimal.Decimal `yaml:"amount_paid"`
+		PaidDate      time.Time       `yaml:"paid_date" time_format:"2006-01-02"`
+		TxID          string          `yaml:"tx_id"`
+	}
+
+	InvoicePayment struct {
+		InvoicePaymentInstruction `yaml:"instruction,omitempty"`
+		InvoicePaymentResult      `yaml:"result,omitempty"`
 	}
 
 	InvoiceDoc struct {

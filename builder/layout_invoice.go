@@ -23,6 +23,9 @@ func (invoiceLayoutClassic) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Ro
 		return nil, nil, fmt.Errorf("invoice params are nil")
 	}
 
+	showInstructions := b.showInvoicePaymentInstructions()
+	showResult := b.showInvoicePaymentResult()
+
 	headers, err := b.BuildInvoiceHeader()
 	if err != nil {
 		return nil, nil, err
@@ -32,8 +35,14 @@ func (invoiceLayoutClassic) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Ro
 	body = append(body, b.BuildInvoiceBillTo()...)
 	body = append(body, b.BuildInvoiceSummaryRows()...)
 	body = append(body, b.BuildInvoiceDetailsRows()...)
-	if !b.iParams.Payment.Disabled {
+	if showInstructions {
 		body = append(body, b.BuildInvoicePaymentRows()...)
+	}
+	if showResult {
+		if showInstructions {
+			body = append(body, row.New(4))
+		}
+		body = append(body, b.BuildInvoicePaymentResultRows()...)
 	}
 
 	return headers, body, nil
@@ -47,6 +56,9 @@ func (invoiceLayoutModern) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 	if b.iParams == nil {
 		return nil, nil, fmt.Errorf("invoice params are nil")
 	}
+
+	showInstructions := b.showInvoicePaymentInstructions()
+	showResult := b.showInvoicePaymentResult()
 
 	headers, err := b.buildInvoiceHeader(4)
 	if err != nil {
@@ -94,9 +106,13 @@ func (invoiceLayoutModern) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 		row.New(6),
 	)
 	body = append(body, b.BuildInvoiceDetailsRows()...)
-	if !b.iParams.Payment.Disabled {
+	if showInstructions {
 		body = append(body, row.New(6))
 		body = append(body, b.BuildInvoicePaymentRows()...)
+	}
+	if showResult {
+		body = append(body, row.New(6))
+		body = append(body, b.BuildInvoicePaymentResultRows()...)
 	}
 
 	return headers, body, nil
@@ -110,6 +126,9 @@ func (invoiceLayoutCompact) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Ro
 	if b.iParams == nil {
 		return nil, nil, fmt.Errorf("invoice params are nil")
 	}
+
+	showInstructions := b.showInvoicePaymentInstructions()
+	showResult := b.showInvoicePaymentResult()
 
 	headers, err := b.buildInvoiceHeader(2)
 	if err != nil {
@@ -147,9 +166,13 @@ func (invoiceLayoutCompact) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Ro
 		row.New(4),
 	)
 	body = append(body, b.BuildInvoiceDetailsRows()...)
-	if !b.iParams.Payment.Disabled {
+	if showInstructions {
 		body = append(body, row.New(4))
 		body = append(body, b.BuildInvoicePaymentRows()...)
+	}
+	if showResult {
+		body = append(body, row.New(4))
+		body = append(body, b.BuildInvoicePaymentResultRows()...)
 	}
 
 	return headers, body, nil
@@ -164,6 +187,9 @@ func (invoiceLayoutLedger) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 		return nil, nil, fmt.Errorf("invoice params are nil")
 	}
 
+	showInstructions := b.showInvoicePaymentInstructions()
+	showResult := b.showInvoicePaymentResult()
+
 	headers, err := b.buildInvoiceHeader(4)
 	if err != nil {
 		return nil, nil, err
@@ -175,9 +201,13 @@ func (invoiceLayoutLedger) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 	body = append(body, b.BuildInvoiceDetailsRows()...)
 	body = append(body, row.New(6))
 	body = append(body, b.BuildInvoiceSummaryRows()...)
-	if !b.iParams.Payment.Disabled {
+	if showInstructions {
 		body = append(body, row.New(4))
 		body = append(body, b.BuildInvoicePaymentRows()...)
+	}
+	if showResult {
+		body = append(body, row.New(4))
+		body = append(body, b.BuildInvoicePaymentResultRows()...)
 	}
 
 	return headers, body, nil
@@ -191,6 +221,9 @@ func (invoiceLayoutSpotlight) Build(b *Builder) ([]marotoCore.Row, []marotoCore.
 	if b.iParams == nil {
 		return nil, nil, fmt.Errorf("invoice params are nil")
 	}
+
+	showInstructions := b.showInvoicePaymentInstructions()
+	showResult := b.showInvoicePaymentResult()
 
 	headers, err := b.buildInvoiceHeader(2)
 	if err != nil {
@@ -246,9 +279,13 @@ func (invoiceLayoutSpotlight) Build(b *Builder) ([]marotoCore.Row, []marotoCore.
 
 	body = append(body, b.BuildInvoiceBillTo()...)
 	body = append(body, b.BuildInvoiceDetailsRows()...)
-	if !b.iParams.Payment.Disabled {
+	if showInstructions {
 		body = append(body, row.New(6))
 		body = append(body, b.BuildInvoicePaymentRows()...)
+	}
+	if showResult {
+		body = append(body, row.New(6))
+		body = append(body, b.BuildInvoicePaymentResultRows()...)
 	}
 
 	return headers, body, nil
@@ -263,6 +300,9 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 		return nil, nil, fmt.Errorf("invoice params are nil")
 	}
 
+	showInstructions := b.showInvoicePaymentInstructions()
+	showResult := b.showInvoicePaymentResult()
+
 	headers, err := b.buildInvoiceHeader(2)
 	if err != nil {
 		return nil, nil, err
@@ -270,7 +310,6 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 
 	tPayment := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePayment", nil)
 	tMethod := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentMethod", nil)
-	tPaymentID := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentID", nil)
 	tBankName := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankName", nil)
 	tBankBranch := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankBranch", nil)
 	tBankDepositType := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePaymentBankDepositType", nil)
@@ -314,8 +353,12 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 	body = append(body, b.BuildInvoiceDetailsRows()...)
 	body = append(body, row.New(6))
 
-	if b.iParams.Payment.Disabled {
+	if !showInstructions {
 		body = append(body, row.New(56).WithStyle(borderBottomStyle).Add(col.New(6), summaryCol))
+		if showResult {
+			body = append(body, row.New(6))
+			body = append(body, b.BuildInvoicePaymentResultRows()...)
+		}
 		return headers, body, nil
 	}
 
@@ -332,25 +375,29 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 		lineTop += lineStep
 	}
 
-	method := b.iParams.Payment.Method
+	instruction := b.iParams.Payment.InvoicePaymentInstruction
+	method := instruction.Method
 	if method == "" {
 		method = b.defaultInvoicePaymentMethod()
 	}
 	addLine(tMethod, method)
-	addLine(tPaymentID, b.iParams.Payment.PaymentID)
-	addLine(tCryptoCurrency, b.iParams.Payment.ReceiveCryptoCurrency)
-	addLine(tCryptoNetwork, b.iParams.Payment.ReceiveCryptoNetwork)
-	addLine(tCryptoAddress, b.iParams.Payment.ReceiveCryptoAddress)
-	addLine(tCryptoMemo, b.iParams.Payment.ReceiveCryptoMemo)
-	addLine(tBankName, b.iParams.Payment.ReceiveAccountBank)
-	addLine(tBankBranch, b.iParams.Payment.ReceiveAccountBranch)
-	addLine(tBankDepositType, b.iParams.Payment.ReceiveDepositType)
-	addLine(tBankAccount, b.iParams.Payment.ReceiveAccountNumber)
-	addLine(tBankAccountName, b.iParams.Payment.ReceiveAccountName)
-	addLine("SWIFT", b.iParams.Payment.ReceiveAccountSwift)
-	addLine("Routing Number", b.iParams.Payment.ReceiveAccountRouting)
+	addLine(tCryptoCurrency, instruction.ReceiveCryptoCurrency)
+	addLine(tCryptoNetwork, instruction.ReceiveCryptoNetwork)
+	addLine(tCryptoAddress, instruction.ReceiveCryptoAddress)
+	addLine(tCryptoMemo, instruction.ReceiveCryptoMemo)
+	addLine(tBankName, instruction.ReceiveAccountBank)
+	addLine(tBankBranch, instruction.ReceiveAccountBranch)
+	addLine(tBankDepositType, instruction.ReceiveDepositType)
+	addLine(tBankAccount, instruction.ReceiveAccountNumber)
+	addLine(tBankAccountName, instruction.ReceiveAccountName)
+	addLine("SWIFT", instruction.ReceiveAccountSwift)
+	addLine("Routing Number", instruction.ReceiveAccountRouting)
 
 	body = append(body, row.New(56).WithStyle(borderTopStyle).Add(paymentCol, summaryCol))
+	if showResult {
+		body = append(body, row.New(6))
+		body = append(body, b.BuildInvoicePaymentResultRows()...)
+	}
 
 	return headers, body, nil
 }

@@ -26,10 +26,10 @@ other = "增值稅"
 other = "合計（含稅）"
 
 [InvoiceSummaryTotalWithTaxJPY]
-other = "※ 參考金額：{{.TotalJPY}} 日圓，{{.Symbol}} (USD) = {{.DollarRate}} 日圓"
+other = "※ 參考金額：{{.TotalJPY}} 日圓，1 {{.Symbol}} (USD) = {{.DollarRate}} 日圓"
 
 [InvoiceSummaryTotalWithTaxQuote]
-other = "※ 參考金額：{{.QuoteAmount}} {{.QuoteSymbol}}，{{.BaseSymbol}} = {{.QuotePerBase}} {{.QuoteSymbol}}"
+other = "※ 參考金額：{{.QuoteAmount}} {{.QuoteSymbol}}，1 {{.BaseSymbol}} = {{.QuotePerBase}} {{.QuoteSymbol}}"
 
 [InvoiceDetails]
 other = "明細"

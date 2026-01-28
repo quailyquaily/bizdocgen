@@ -35,10 +35,10 @@ other = "消費税 (JCT)"
 other = "合計 (税込)"
 
 [InvoiceSummaryTotalWithTaxJPY]
-other = "※ 参考金額：約{{.TotalJPY}}円。{{.Symbol}}（ドル）={{.DollarRate}}円で換算"
+other = "※ 参考金額：約{{.TotalJPY}}円。1 {{.Symbol}}（ドル）={{.DollarRate}}円で換算"
 
 [InvoiceSummaryTotalWithTaxQuote]
-other = "※ 参考金額：約{{.QuoteAmount}}{{.QuoteSymbol}}。{{.BaseSymbol}}={{.QuotePerBase}}{{.QuoteSymbol}}で換算"
+other = "※ 参考金額：約{{.QuoteAmount}}{{.QuoteSymbol}}。1 {{.BaseSymbol}}={{.QuotePerBase}}{{.QuoteSymbol}}で換算"
 
 [InvoiceDetails]
 other = "明細"

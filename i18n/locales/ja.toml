@@ -13,14 +13,17 @@ other = "請求期間"
 [InvoiceBillTo]
 other = "請求先"
 
-[PaymentStatementChannelTitle]
-other = "支払"
+[StatementID]
+other = "精算書番号"
 
-[PaymentStatementChannel]
-other = "支払チャネル"
+[StatementIssueDate]
+other = "精算書発行日"
 
-[PaymentStatementChannelTxID]
-other = "支払トランザクションID"
+[StatementPeriod]
+other = "精算期間"
+
+[StatementRecipient]
+other = "受取人"
 
 [InvoiceSummary]
 other = "概要"
@@ -88,54 +91,3 @@ other = "支払日"
 [InvoicePaymentResultTxID]
 other = "取引ID"
 
-
-[PaymentStatementTitle]
-other = "報酬、料金、契約金及び賞金の支払調書"
-
-[PaymentStatementIssueDate]
-other = "支払調書発行日"
-
-[PaymentStatementPeriod]
-other = "期間"
-
-[PaymentStatementSummary]
-other = "概要"
-
-[PaymentStatementSummaryAmount]
-other = "金額"
-
-[PaymentStatementSummaryRevenue]
-other = "売上"
-
-[PaymentStatementSummaryNetAmount]
-other = "支払金額 (税抜)"
-
-[PaymentStatementWithholdingTax]
-other = "源泉徴収税"
-
-[PaymentStatementDetails]
-other = "細目"
-
-[PaymentStatementDetailsAmount]
-other = "支払金額"
-
-[PaymentStatementDetailsTax]
-other = "源泉徵收税額"
-
-[PaymentStatementPayer]
-other = "支払者"
-
-[PaymentStatementPayee]
-other = "支払を受ける者"
-
-[PaymentStatementUserName]
-other = "氏名"
-
-[PaymentStatementUserAddress]
-other = "住所"
-
-[PaymentStatementUserTaxID]
-other = "個人番号又は法人番号"
-
-[PaymentStatementUserContact]
-other = "連絡先"

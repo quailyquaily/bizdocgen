@@ -35,29 +35,28 @@ func main() {
 }
 ```
 
-### Fonts + language
+### Fonts + language (settlement statement)
 
 To render CJK content, configure UTF-8 fonts (the repo includes Noto Sans CJK under `fonts/`):
 
 ```go
-	bd, _ := builder.NewPaymentStatementBuilderFromFile(
+	bd, _ := builder.NewSettlementStatementBuilderFromFile(
 		builder.Config{
-			Lang:                   "ja", // also: zh_cn, zh_tw (or zh-CN / zh-TW)
-			PaymentStatementLayout: builder.LayoutModern,
-
-		FontName:       "noto-sans-cjk",
-		FontNormal:     "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Regular.ttf",
-		FontItalic:     "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Italic.ttf",
-		FontBold:       "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Bold.ttf",
-		FontBoldItalic: "./fonts/NotoSansCJK-JP/NotoSansCJKjp-BoldItalic.ttf",
-	},
-	"./samples/paymentstatement-1.yaml",
-)
+			Lang:                      "ja", // also: zh_cn, zh_tw (or zh-CN / zh-TW)
+			SettlementStatementLayout: builder.LayoutModern,
+			FontName:       "noto-sans-cjk",
+			FontNormal:     "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Regular.ttf",
+			FontItalic:     "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Italic.ttf",
+			FontBold:       "./fonts/NotoSansCJK-JP/NotoSansCJKjp-Bold.ttf",
+			FontBoldItalic: "./fonts/NotoSansCJK-JP/NotoSansCJKjp-BoldItalic.ttf",
+		},
+		"./samples/settlementstatement-1.yaml",
+	)
 ```
 
 ## Layouts
 
-Select layouts via `builder.Config.InvoiceLayout` / `builder.Config.PaymentStatementLayout`.
+Select layouts via `builder.Config.InvoiceLayout` / `builder.Config.SettlementStatementLayout`.
 Built-ins: `classic`, `modern`, `compact`, `spotlight`, `ledger`, `split`. See `docs/layouts.md`.
 
 ## Quote currency reference (optional)

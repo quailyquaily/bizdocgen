@@ -65,7 +65,7 @@ func (invoiceLayoutModern) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 		return nil, nil, err
 	}
 
-	tBillTo := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceBillTo", nil)
+	tBillTo := b.i18nBundle.MusT(b.cfg.Lang, b.labelKey("InvoiceBillTo"), nil)
 	tSummary := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummary", nil)
 	tAmount := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryAmount", nil)
 	tVAT := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryVAT", nil)
@@ -135,7 +135,7 @@ func (invoiceLayoutCompact) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Ro
 		return nil, nil, err
 	}
 
-	tBillTo := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceBillTo", nil)
+	tBillTo := b.i18nBundle.MusT(b.cfg.Lang, b.labelKey("InvoiceBillTo"), nil)
 	tSummary := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummary", nil)
 	tVAT := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceSummaryVAT", nil)
 

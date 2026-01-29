@@ -13,6 +13,18 @@ other = "Invoice Period"
 [InvoiceBillTo]
 other = "Bill To"
 
+[StatementID]
+other = "Statement ID"
+
+[StatementIssueDate]
+other = "Statement Issue Date"
+
+[StatementPeriod]
+other = "Statement Period"
+
+[StatementRecipient]
+other = "Recipient"
+
 [InvoiceSummary]
 other = "Summary"
 
@@ -78,65 +90,3 @@ other = "Paid Date"
 
 [InvoicePaymentResultTxID]
 other = "Tx ID"
-
-
-
-[PaymentStatementTitle]
-other = "報酬、料金、契約金及び賞金の支払調書"
-
-[PaymentStatementIssueDate]
-other = "支払調書発行日"
-
-[PaymentStatementPeriod]
-other = "期間"
-
-[PaymentStatementChannelTitle]
-other = "Payment"
-
-[PaymentStatementChannel]
-other = "Payment Channel"
-
-[PaymentStatementChannelTxID]
-other = "Payment Tx ID"
-
-[PaymentStatementSummary]
-other = "Summary"
-
-[PaymentStatementSummaryAmount]
-other = "Amount"
-
-[PaymentStatementSummaryRevenue]
-other = "Revenue"
-
-[PaymentStatementSummaryNetAmount]
-other = "Payment Amount (excluding tax)"
-
-[PaymentStatementWithholdingTax]
-other = "Withholding Tax"
-
-[PaymentStatementDetails]
-other = "Details"
-
-[PaymentStatementDetailsAmount]
-other = "Payment Amount"
-
-[PaymentStatementDetailsTax]
-other = "Withholding Tax"
-
-[PaymentStatementPayer]
-other = "Payment From"
-
-[PaymentStatementPayee]
-other = "Payment To"
-
-[PaymentStatementUserName]
-other = "Name"
-
-[PaymentStatementUserAddress]
-other = "Address"
-
-[PaymentStatementUserTaxID]
-other = "Tax ID"
-
-[PaymentStatementUserContact]
-other = "Contact"

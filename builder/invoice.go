@@ -23,6 +23,8 @@ import (
 const (
 	defaultInvoiceDocTitle       = "Invoice"
 	defaultInvoiceDocDescription = "This is an invoice hint"
+	defaultStatementDocTitle     = "Settlement Statement"
+	defaultStatementDocHint      = ""
 )
 
 func (b *Builder) BuildInvoiceHeader() ([]marotoCore.Row, error) {
@@ -33,12 +35,18 @@ func (b *Builder) invoiceDocTitle() string {
 	if b.iParams.Doc.Title != "" {
 		return b.iParams.Doc.Title
 	}
+	if b.docLabelSet == labelSetStatement {
+		return defaultStatementDocTitle
+	}
 	return defaultInvoiceDocTitle
 }
 
 func (b *Builder) invoiceDocHint() string {
 	if b.iParams.Doc.Description != "" {
 		return b.iParams.Doc.Description
+	}
+	if b.docLabelSet == labelSetStatement {
+		return defaultStatementDocHint
 	}
 	return defaultInvoiceDocDescription
 }
@@ -58,10 +66,10 @@ func (b *Builder) buildInvoiceTitleRows() []marotoCore.Row {
 }
 
 func (b *Builder) buildInvoiceHeader(spacerHeight float64) ([]marotoCore.Row, error) {
-	tInvoiceID := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceID", nil)
+	tInvoiceID := b.i18nBundle.MusT(b.cfg.Lang, b.labelKey("InvoiceID"), nil)
 	tTaxID := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceTaxID", nil)
-	tIssueDate := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceIssueDate", nil)
-	tPeriod := b.i18nBundle.MusT(b.cfg.Lang, "InvoicePeriod", nil)
+	tIssueDate := b.i18nBundle.MusT(b.cfg.Lang, b.labelKey("InvoiceIssueDate"), nil)
+	tPeriod := b.i18nBundle.MusT(b.cfg.Lang, b.labelKey("InvoicePeriod"), nil)
 
 	borderBottomStyle := &props.Cell{
 		BorderType:  border.Bottom,
@@ -139,7 +147,7 @@ func (b *Builder) BuildInvoiceFooter() ([]marotoCore.Row, error) {
 }
 
 func (b *Builder) BuildInvoiceBillTo() []marotoCore.Row {
-	tBillTo := b.i18nBundle.MusT(b.cfg.Lang, "InvoiceBillTo", nil)
+	tBillTo := b.i18nBundle.MusT(b.cfg.Lang, b.labelKey("InvoiceBillTo"), nil)
 
 	billTo := col.New(8)
 	billTo.Add(text.New(b.iParams.BillToCompany, props.Text{Size: 9, Top: float64(0), Style: fontstyle.Bold, Color: b.fgColor}))

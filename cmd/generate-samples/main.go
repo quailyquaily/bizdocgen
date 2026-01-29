@@ -23,7 +23,7 @@ func main() {
 	if err := generateInvoices(repoRoot); err != nil {
 		log.Fatal(err)
 	}
-	if err := generatePaymentStatements(repoRoot); err != nil {
+	if err := generateSettlementStatements(repoRoot); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -101,9 +101,9 @@ func generateInvoice2Modern(repoRoot string) error {
 	return nil
 }
 
-func generatePaymentStatements(repoRoot string) error {
-	input := filepath.Join(repoRoot, "samples", "paymentstatement-1.yaml")
-	params := &core.PaymentStatementParams{}
+func generateSettlementStatements(repoRoot string) error {
+	input := filepath.Join(repoRoot, "samples", "settlementstatement-1.yaml")
+	params := &core.SettlementStatementParams{}
 	if err := params.Load(input); err != nil {
 		return err
 	}
@@ -113,8 +113,8 @@ func generatePaymentStatements(repoRoot string) error {
 
 	for _, layout := range builder.BuiltinLayoutNames() {
 		cfg := builder.Config{
-			Lang:                   "ja",
-			PaymentStatementLayout: layout,
+			Lang:                      "ja",
+			SettlementStatementLayout: layout,
 
 			FontName:       "noto-sans-cjk",
 			FontNormal:     filepath.Join(fontsRoot, "NotoSansCJKjp-Regular.ttf"),
@@ -123,16 +123,16 @@ func generatePaymentStatements(repoRoot string) error {
 			FontBoldItalic: filepath.Join(fontsRoot, "NotoSansCJKjp-BoldItalic.ttf"),
 		}
 
-		bd, err := builder.NewPaymentStatementBuilder(cfg, params)
+		bd, err := builder.NewSettlementStatementBuilder(cfg, params)
 		if err != nil {
 			return err
 		}
-		buf, err := bd.GeneratePaymentStatement()
+		buf, err := bd.GenerateSettlementStatement()
 		if err != nil {
 			return err
 		}
 
-		out := filepath.Join(repoRoot, "samples", fmt.Sprintf("paymentstatement-1-%s.pdf", layout))
+		out := filepath.Join(repoRoot, "samples", fmt.Sprintf("settlementstatement-1-%s.pdf", layout))
 		if err := os.WriteFile(out, buf, 0o666); err != nil {
 			return err
 		}

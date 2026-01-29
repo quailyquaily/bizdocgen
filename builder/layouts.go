@@ -20,11 +20,6 @@ type InvoiceLayout interface {
 	Build(b *Builder) (header []marotoCore.Row, body []marotoCore.Row, err error)
 }
 
-type PaymentStatementLayout interface {
-	Name() string
-	Build(b *Builder) (header []marotoCore.Row, body []marotoCore.Row, err error)
-}
-
 func InvoiceLayoutByName(name string) InvoiceLayout {
 	switch normalizeLayoutName(name) {
 	case LayoutModern:
@@ -41,25 +36,6 @@ func InvoiceLayoutByName(name string) InvoiceLayout {
 		fallthrough
 	default:
 		return invoiceLayoutClassic{}
-	}
-}
-
-func PaymentStatementLayoutByName(name string) PaymentStatementLayout {
-	switch normalizeLayoutName(name) {
-	case LayoutModern:
-		return paymentStatementLayoutModern{}
-	case LayoutCompact:
-		return paymentStatementLayoutCompact{}
-	case LayoutSpotlight:
-		return paymentStatementLayoutSpotlight{}
-	case LayoutLedger:
-		return paymentStatementLayoutLedger{}
-	case LayoutSplit:
-		return paymentStatementLayoutSplit{}
-	case LayoutClassic:
-		fallthrough
-	default:
-		return paymentStatementLayoutClassic{}
 	}
 }
 

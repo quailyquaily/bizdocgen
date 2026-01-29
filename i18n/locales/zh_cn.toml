@@ -13,6 +13,18 @@ other = "期间"
 [InvoiceBillTo]
 other = "开票对象"
 
+[StatementID]
+other = "结算单编号"
+
+[StatementIssueDate]
+other = "结算单开具日期"
+
+[StatementPeriod]
+other = "结算期间"
+
+[StatementRecipient]
+other = "收件人"
+
 [InvoiceSummary]
 other = "汇总"
 
@@ -78,63 +90,3 @@ other = "支付日期"
 
 [InvoicePaymentResultTxID]
 other = "交易ID"
-
-[PaymentStatementTitle]
-other = "报酬、费用、合同款及奖金支付证明"
-
-[PaymentStatementIssueDate]
-other = "开具日期"
-
-[PaymentStatementPeriod]
-other = "期间"
-
-[PaymentStatementChannelTitle]
-other = "支付"
-
-[PaymentStatementChannel]
-other = "支付方式"
-
-[PaymentStatementChannelTxID]
-other = "支付交易ID"
-
-[PaymentStatementSummary]
-other = "汇总"
-
-[PaymentStatementSummaryAmount]
-other = "金额"
-
-[PaymentStatementSummaryRevenue]
-other = "收入"
-
-[PaymentStatementSummaryNetAmount]
-other = "实付金额（税前）"
-
-[PaymentStatementWithholdingTax]
-other = "预扣税"
-
-[PaymentStatementDetails]
-other = "明细"
-
-[PaymentStatementDetailsAmount]
-other = "实付金额"
-
-[PaymentStatementDetailsTax]
-other = "预扣税额"
-
-[PaymentStatementPayer]
-other = "付款方"
-
-[PaymentStatementPayee]
-other = "收款方"
-
-[PaymentStatementUserName]
-other = "名称"
-
-[PaymentStatementUserAddress]
-other = "地址"
-
-[PaymentStatementUserTaxID]
-other = "税号"
-
-[PaymentStatementUserContact]
-other = "联系方式"

@@ -85,11 +85,11 @@ func (invoiceLayoutModern) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row
 	summaryCol := col.New(6)
 	summaryCol.Add(
 		text.New(tSummary, props.Text{Size: 10, Top: 0, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
-		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 18, Top: 8, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, summaryNumbers.BaseCurrency), props.Text{Size: 18, Top: 8, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
 		text.New(b.iParams.Summary.Title, props.Text{Size: 9, Top: 26, Align: align.Right, Color: b.fgSecondaryColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tAmount, summaryNumbers.Subtotal.RoundDown(2), b.iParams.Currency), props.Text{Size: 9, Top: 34, Align: align.Right, Color: b.fgSecondaryColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tVAT, summaryNumbers.Tax, b.iParams.Currency), props.Text{Size: 9, Top: 40, Align: align.Right, Color: b.fgSecondaryColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tTotal, summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 9, Top: 46, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tAmount, summaryNumbers.Subtotal.RoundDown(2), summaryNumbers.BaseCurrency), props.Text{Size: 9, Top: 34, Align: align.Right, Color: b.fgSecondaryColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tVAT, summaryNumbers.Tax, summaryNumbers.BaseCurrency), props.Text{Size: 9, Top: 40, Align: align.Right, Color: b.fgSecondaryColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tTotal, summaryNumbers.Total, summaryNumbers.BaseCurrency), props.Text{Size: 9, Top: 46, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
 	)
 	if summaryNumbers.QuoteAmount.IsPositive() && summaryNumbers.QuoteText != "" {
 		summaryCol.Add(text.New(summaryNumbers.QuoteText, props.Text{Size: 8, Top: 54, Align: align.Right, Color: b.fgSecondaryColor}))
@@ -153,8 +153,8 @@ func (invoiceLayoutCompact) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Ro
 	summaryCol := col.New(5)
 	summaryCol.Add(
 		text.New(tSummary, props.Text{Size: 9, Top: 0, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
-		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 12, Top: 9, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tVAT, summaryNumbers.Tax, b.iParams.Currency), props.Text{Size: 8, Top: 24, Align: align.Right, Color: b.fgSecondaryColor}),
+		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, summaryNumbers.BaseCurrency), props.Text{Size: 12, Top: 9, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tVAT, summaryNumbers.Tax, summaryNumbers.BaseCurrency), props.Text{Size: 8, Top: 24, Align: align.Right, Color: b.fgSecondaryColor}),
 	)
 	if summaryNumbers.QuoteAmount.IsPositive() && summaryNumbers.QuoteText != "" {
 		summaryCol.Add(text.New(summaryNumbers.QuoteText, props.Text{Size: 7, Top: 30, Align: align.Right, Color: b.fgSecondaryColor}))
@@ -245,7 +245,7 @@ func (invoiceLayoutSpotlight) Build(b *Builder) ([]marotoCore.Row, []marotoCore.
 	spotlightCol := col.New(12)
 	spotlightCol.Add(
 		text.New(tTotal, props.Text{Size: 10, Top: 2, Align: align.Center, Color: b.fgSecondaryColor}),
-		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 22, Top: 10, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, summaryNumbers.BaseCurrency), props.Text{Size: 22, Top: 10, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
 	)
 	if b.iParams.Summary.Title != "" {
 		spotlightCol.Add(text.New(b.iParams.Summary.Title, props.Text{Size: 9, Top: 23, Align: align.Center, Color: b.fgSecondaryColor}))
@@ -254,15 +254,15 @@ func (invoiceLayoutSpotlight) Build(b *Builder) ([]marotoCore.Row, []marotoCore.
 	breakdownRow := row.New(16).WithStyle(borderBottomStyle).Add(
 		col.New(4).Add(
 			text.New(tAmount, props.Text{Size: 8, Top: 4, Align: align.Center, Color: b.fgSecondaryColor}),
-			text.New(fmt.Sprintf("%s %s", summaryNumbers.Subtotal.RoundDown(2), b.iParams.Currency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
+			text.New(fmt.Sprintf("%s %s", summaryNumbers.Subtotal.RoundDown(2), summaryNumbers.BaseCurrency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
 		),
 		col.New(4).Add(
 			text.New(tVAT, props.Text{Size: 8, Top: 4, Align: align.Center, Color: b.fgSecondaryColor}),
-			text.New(fmt.Sprintf("%s %s", summaryNumbers.Tax, b.iParams.Currency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
+			text.New(fmt.Sprintf("%s %s", summaryNumbers.Tax, summaryNumbers.BaseCurrency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
 		),
 		col.New(4).Add(
 			text.New(tTotal, props.Text{Size: 8, Top: 4, Align: align.Center, Color: b.fgSecondaryColor}),
-			text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
+			text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, summaryNumbers.BaseCurrency), props.Text{Size: 10, Top: 8, Align: align.Center, Style: fontstyle.Bold, Color: b.fgColor}),
 		),
 	)
 
@@ -338,10 +338,10 @@ func (invoiceLayoutSplit) Build(b *Builder) ([]marotoCore.Row, []marotoCore.Row,
 	summaryCol := col.New(6)
 	summaryCol.Add(
 		text.New(tSummary, props.Text{Size: 10, Top: 10, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
-		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 16, Top: 20, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tAmount, summaryNumbers.Subtotal.RoundDown(2), b.iParams.Currency), props.Text{Size: 9, Top: 40, Align: align.Right, Color: b.fgSecondaryColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tVAT, summaryNumbers.Tax, b.iParams.Currency), props.Text{Size: 9, Top: 46, Align: align.Right, Color: b.fgSecondaryColor}),
-		text.New(fmt.Sprintf("%s: %s %s", tTotal, summaryNumbers.Total, b.iParams.Currency), props.Text{Size: 9, Top: 52, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(fmt.Sprintf("%s %s", summaryNumbers.Total, summaryNumbers.BaseCurrency), props.Text{Size: 16, Top: 20, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tAmount, summaryNumbers.Subtotal.RoundDown(2), summaryNumbers.BaseCurrency), props.Text{Size: 9, Top: 40, Align: align.Right, Color: b.fgSecondaryColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tVAT, summaryNumbers.Tax, summaryNumbers.BaseCurrency), props.Text{Size: 9, Top: 46, Align: align.Right, Color: b.fgSecondaryColor}),
+		text.New(fmt.Sprintf("%s: %s %s", tTotal, summaryNumbers.Total, summaryNumbers.BaseCurrency), props.Text{Size: 9, Top: 52, Align: align.Right, Style: fontstyle.Bold, Color: b.fgColor}),
 	)
 	if summaryNumbers.QuoteAmount.IsPositive() && summaryNumbers.QuoteText != "" {
 		summaryCol.Add(text.New(summaryNumbers.QuoteText, props.Text{Size: 8, Top: 50, Align: align.Right, Color: b.fgSecondaryColor}))

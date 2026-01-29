@@ -16,15 +16,21 @@ type (
 		Desc            string          `yaml:"desc"`
 		URL             string          `yaml:"url"`
 		URLs            []string        `yaml:"urls"`
+		Currency        string          `yaml:"currency"`
 		TotalExcludeTax decimal.Decimal `yaml:"total_exclude_tax"`
 		TotalIncludeTax decimal.Decimal `yaml:"total_include_tax"`
-		Tax             decimal.Decimal `yaml:"tax"`
+		// TotalIncludeTaxQuoteAmount/TotalIncludeTaxQuoteSymbol provide a reference total in a quote currency,
+		// allowing the invoice to display an implied exchange rate for any currency pair.
+		TotalIncludeTaxQuoteAmount decimal.Decimal `yaml:"total_include_tax_quote_amount"`
+		TotalIncludeTaxQuoteSymbol string          `yaml:"total_include_tax_quote_symbol"`
+		Tax                        decimal.Decimal `yaml:"tax"`
 	}
 
 	InvoiceSummary struct {
 		PeriodStart     time.Time       `yaml:"period_start" time_format:"2006/01/02"`
 		PeriodEnd       time.Time       `yaml:"period_end" time_format:"2006/01/02"`
 		Title           string          `yaml:"title"`
+		Currency        string          `yaml:"currency"`
 		TotalExcludeTax decimal.Decimal `yaml:"total_exclude_tax"`
 		TotalIncludeTax decimal.Decimal `yaml:"total_include_tax"`
 		// TotalIncludeTaxQuoteAmount/TotalIncludeTaxQuoteSymbol provide a reference total in a quote currency,

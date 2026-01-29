@@ -14,7 +14,7 @@ summary:
   title: "システム開発・設計サービス"
   total_exclude_tax: 500000
   tax_rate: 0.1
-  total_include_tax_quote_amount: 3700
+  total_include_tax_quote_amount: 3591.65
   total_include_tax_quota_symbol: "USD"
 detail_items:
   - date: 2024-01-31
@@ -23,6 +23,8 @@ detail_items:
     url:
     total_exclude_tax: 300000
     tax: 30000
+    total_include_tax_quote_amount: 2154.75
+    total_include_tax_quote_symbol: "USD"
   - date: 2024-01-01
     title: "システム設計案"
     desc: "システム設計書の作成"

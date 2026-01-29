@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # Layout Styles Plan
 
 ## Goals

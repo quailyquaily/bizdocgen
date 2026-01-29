@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # 结算单（Settlement Statement）支持（替代 PaymentStatement）
 
 ## 背景
